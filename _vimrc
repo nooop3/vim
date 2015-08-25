@@ -88,7 +88,8 @@ set shiftwidth=4 " 默认缩进四个空格
 " set hlsearch " 搜索结果高亮
 set ignorecase " 搜索忽略大小写
 set cursorline " 突出显示当前行
-set autoread "当文件在外部修改自动更新该文件
+set shortmess=atI " 取消欢迎界面
+set autoread " 当文件在外部修改自动更新该文件
 set autowrite " 设置自动存档
 
 " 程序中跳转
