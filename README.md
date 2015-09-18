@@ -1,5 +1,5 @@
 ## My vimrc configuration
-.vimrv is for Linux
+.vimrc is for Linux
 _vimrc is for MS-windows
 
 ## Others
