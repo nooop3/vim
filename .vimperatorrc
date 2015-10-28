@@ -1,0 +1,26 @@
+" Updated 2015/08/30
+
+let g:smooziee_scroll_amount="50"
+let g:smooziee_scroll_interval="0"
+
+set hintchars=hjklasdfgyuiopqwertnmzcvb
+set suggestengines=''      
+" ²»Ê¹ÓÃËÑË÷ÒýÇæÒ³ÃæÍÆ¼ö
+set gui=addons,nomenu,nonavigation,nobookmarks,tabs
+set focuscontent
+set wildmode=list:full
+set noscrollbars
+" set animations
+colorscheme indigo
+set editor='I:\Win8Install\Vim\vim74 -f'
+" source! "C:\\Users\\Edward\\_vimperatorrc.local"
+
+" hint¿¿¿¿¿¿¿
+nnoremap <silent> f :silent !fcitx-remote -c<CR>f
+nnoremap <silent> F :silent !fcitx-remote -c<CR>F
+nnoremap <silent> : :silent !fcitx-remote -c<CR>:
+nnoremap <silent> b :silent !fcitx-remote -c<CR>b
+nnoremap <silent> t :silent !fcitx-remote -c<CR>t
+nnoremap <silent> o :silent !fcitx-remote -c<CR>o
+
+" vim: set ft=vimperator:
