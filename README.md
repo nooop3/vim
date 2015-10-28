@@ -1,6 +1,7 @@
 ## My vimrc configuration
 .vimrc is for Linux
-\_vimrc is for MS-windows
+.vimperatorrc is for firefox plugin vimperator
+_vimrc is for MS-windows
 
 ## Others
 Plugins manage: Vundle
