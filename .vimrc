@@ -113,13 +113,15 @@ filetype plugin indent on    " required
 " End Bundle
 
 syntax enable     " 开启代码高亮
-let g:solarized_termcolors=256
-if has('gui_running')
+"if has('gui_running')
 	set background=dark
-else
-	set background=light
-endif
-colorscheme solarized
+	"let g:solarized_termcolors=256
+	set t_Co=256
+	colorscheme solarized
+"else
+"	set background=light
+"	set t_Co=16
+"endif
 
 set hlsearch      " 开启搜索高亮
 set incsearch     " 输入字符串的同时进行搜索
