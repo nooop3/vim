@@ -3,8 +3,8 @@
 "    Author:   Edward Green
 "    Version:  1.0.0
 "    Email:    zhendongguan@gmail.com
-"    Blog: http://104.224.175.151
-"    Date: 2015-9-18
+"    Blog: http://vimer.xyz
+"    Date: 2015-10-28
 " =======================================
 
 " Bundle start

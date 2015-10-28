@@ -3,17 +3,17 @@
 "    Author:   Edward Green
 "    Version:  1.0.0
 "    Email:    zhendongguan@gmail.com
-"    Blog: http://104.224.175.151
-"    Date: 2015-8-25
+"    Blog: http://vimer.xyz
+"    Date: 2015-10-28
 " =======================================
 
-" ÅäÖÃVundle
-set nocompatible " È¡Ïû¼æÈİ
+" ????Vundle
+set nocompatible " È¡??????
 filetype off " Vundle required
-set rtp+=$VIM\vimfiles\bundle\Vundle.vim " ¹æ¶¨VundleµÄÂ·¾¶
-call vundle#begin('$VIM\vimfiles\bundle\') " ¹æ¶¨²å¼şµÄ°²×°Â·¾¶
+set rtp+=$VIM\vimfiles\bundle\Vundle.vim " ?æ¶¨Vundle??Â·??
+call vundle#begin('$VIM\vimfiles\bundle\') " ?æ¶¨?????Ä°?×°Â·??
 Plugin 'VundleVim/Vundle.vim' " let Vundle manage Vundle, required
-Plugin 'altercation/vim-colors-solarized' " ÅäÉ«²å¼ş
+Plugin 'altercation/vim-colors-solarized' " ??É«????
 
 " All of Plugins must be added before the following line
 call vundle#end() " required
@@ -60,9 +60,9 @@ function MyDiff()
 endfunction
 
 
-" ÅäÖÃÎÄ¼ş
+" ?????Ä¼?
 
-let mapleader = "," " ÉèÖÃmapleader
+let mapleader = "," " ????mapleader
 " map <silent> <leader>ss :source I:\Win8Install\Vim\_vimrc<cr>
 " Fast reloading of the .vimrc
 map <silent> <leader>ee :e I:\Win8Install\Vim\_vimrc<cr>
@@ -82,37 +82,37 @@ autocmd BufReadPost *
   \ if line("'\"") > 1 && line("'\"") <= line("$") |
   \   exe "normal! g`\"" |
   \ endif
-" ÉèÖÃÎªÔÚ¶ÁÈëÈÎºÎÎÄ¼şÖ®ºó×Ô¶¯Ö´ĞĞ
-set nu! " ÏÔÊ¾ĞĞºÅ
-set background=dark " ±³¾°ÉèÖÃ°µÉ«Ö÷Ìâ
-colorscheme solarized " ÉèÖÃÅäÉ«
+" ????Îª?Ú¶????Îº??Ä¼?Ö®???Ô¶?Ö´??
+set nu! " ??Ê¾?Ğº?
+set background=dark " ???????Ã°?É«????
+colorscheme solarized " ??????É«
 syntax enable
 set guifont=Monaco:h14:cANSI
-set gfw=Monaco:h14:cGB2312 " ÉèÖÃ×ÖÌå
-syntax on " ÉèÖÃÓï·¨¸ßÁÁ
-au GUIEnter * simalt ~x " Æô¶¯×î´ó»¯
-set cindent " CÓïÑÔ·ç¸ñËõ½ø
-set autoindent " ×Ô¶¯ÓëÉÏÒ»ĞĞËõ½øÒ»ÖÂ
-set guioptions= " È¡Ïû±ß¿ò
-" set guioptions-=T " Òş²Ø¹¤¾ßÌõ
-" set guioptions-=m " Òş²Ø²Ëµ¥À¸
-set nobackup " È¡Ïû×Ô¶¯±¸·İ
-set tabstop=4 " ÖÆ±í·ûÕ¼ËÄ¸ö¿Õ¸ñ
-set shiftwidth=4 " Ä¬ÈÏËõ½øËÄ¸ö¿Õ¸ñ
-" set hlsearch " ËÑË÷½á¹û¸ßÁÁ
-set ignorecase " ËÑË÷ºöÂÔ´óĞ¡Ğ´
-set cursorline " Í»³öÏÔÊ¾µ±Ç°ĞĞ
-set shortmess=atI " È¡Ïû»¶Ó­½çÃæ
-set autoread " µ±ÎÄ¼şÔÚÍâ²¿ĞŞ¸Ä×Ô¶¯¸üĞÂ¸ÃÎÄ¼ş
-set autowrite " ÉèÖÃ×Ô¶¯´æµµ
+set gfw=Monaco:h14:cGB2312 " ????????
+syntax on " ?????ï·¨????
+au GUIEnter * simalt ~x " ??????????
+set cindent " C???Ô·???????
+set autoindent " ?Ô¶?????Ò»??????Ò»??
+set guioptions= " È¡???ß¿?
+" set guioptions-=T " ???Ø¹?????
+" set guioptions-=m " ???Ø²Ëµ?À¸
+set nobackup " È¡???Ô¶?????
+set tabstop=4 " ?Æ±???Õ¼?Ä¸??Õ¸?
+set shiftwidth=4 " Ä¬???????Ä¸??Õ¸?
+" set hlsearch " ????????????
+set ignorecase " ???????Ô´?Ğ¡Ğ´
+set cursorline " Í»????Ê¾??Ç°??
+set shortmess=atI " È¡????Ó­????
+set autoread " ???Ä¼????â²¿?Ş¸??Ô¶????Â¸??Ä¼?
+set autowrite " ?????Ô¶??æµµ
 
-" ³ÌĞòÖĞÌø×ª
+" ????????×ª
 set tags=tags
 set autochdir
-" Ô´´úÂë·ÖÎö¹¤¾ß Taglist
+" Ô´???????ö¹¤¾? Taglist
 let Tlist_Show_One_File=1
 let Tlist_Exit_OnlyWindow=1
-" ¶àÎÄµµ±à¼­
+" ???Äµ??à¼­
 " let g:miniBufExplMapCTabSwitchBufs=1
 " let g:miniBufExplMapWindowsNavVim=1
 " let g:miniBufExplMapWindowNavArrows=1

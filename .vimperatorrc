@@ -1,4 +1,11 @@
-" Updated 2015/10/28
+" ======================================
+"    FileName: .vimperatorrc
+"    Author:   Edward Green
+"    Version:  1.0.0
+"    Email:    zhendongguan@gmail.com
+"    Blog: http://vimer.xyz
+"    Date: 2015-10-28
+" =======================================
 
 let g:smooziee_scroll_amount="50"
 let g:smooziee_scroll_interval="0"
