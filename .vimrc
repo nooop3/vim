@@ -3,8 +3,8 @@
 "    Author:   Edward Green
 "    Version:  1.0.0
 "    Email:    zhendongguan@gmail.com
-"    Blog: http://vimer.xyz
-"    Date: 2015-10-28
+"    Blog: http://104.224.175.151
+"    Date: 2015-9-18
 " =======================================
 
 " Bundle start
@@ -22,6 +22,9 @@ Plugin 'VundleVim/Vundle.vim'
 
 " 经典配色方案
 Plugin 'altercation/vim-colors-solarized' 
+
+" 中文帮助
+Plugin 'wkyo/vim-help-doc-zh'
 
 " 模拟黑客帝国
 Plugin 'matrix.vim--Yang'
