@@ -1,10 +1,10 @@
 " ======================================
 "    FileName: .vimrc
 "    Author:   Edward Green
-"    Version:  1.0.0
+"    Version:  1.0.1
 "    Email:    zhendongguan@gmail.com
-"    Blog: http://104.224.175.151
-"    Date: 2015-9-18
+"    Blog: http://vimer.xyz
+"    Date: 2016-02-17
 " =======================================
 
 " Bundle start
@@ -24,7 +24,8 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'altercation/vim-colors-solarized' 
 
 " 中文帮助
-Plugin 'wkyo/vim-help-doc-zh'
+Plugin 'asins/vimcdoc'
+set helplang=cn "使用中文帮助
 
 " 模拟黑客帝国
 Plugin 'matrix.vim--Yang'
@@ -32,7 +33,8 @@ Plugin 'matrix.vim--Yang'
 " Powerline插件，状态栏增强显示
 " Plugin 'Lokaltog/vim-powerline'
 " set laststatus=2
-set t_Co=256      " 指定配色方案为256色
+" set t_Co=256      " 指定配色方案为256色
+set t_Co=16      " 配合gnome terminal 
 " let g:Powline_symbols='fancy'
 
 " Airline状态栏增强插件
