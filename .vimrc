@@ -152,6 +152,7 @@ set nobackup      " 不备份文件
 set noswapfile
 set fileencodings=utf-8
 set fileformats=unix,dos,mac
+set pastetoggle=<F9>	" 插入代码按下F9取消自动缩进
 set guioptions=   " 取消边框
 " set guifont=DejaVu\ Sans\ Mono\ 15
 set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ 15 
