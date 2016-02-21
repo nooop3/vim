@@ -34,7 +34,6 @@ Plugin 'matrix.vim--Yang'
 " Plugin 'Lokaltog/vim-powerline'
 " set laststatus=2
 " set t_Co=256      " 指定配色方案为256色
-set t_Co=16      " 配合gnome terminal 
 " let g:Powline_symbols='fancy'
 
 " Airline状态栏增强插件
