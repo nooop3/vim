@@ -7,6 +7,15 @@
 "    Date: 2016-02-17
 " =======================================
 
+"Set mapleader
+let mapleader = ";"
+"Fast reloading of the .vimrc
+map <silent> <leader>ss :source ~/.vimrc<cr>
+"Fast editing of .vimrc
+map <silent> <leader>ee :e ~/.vimrc<cr>
+"When .vimrc is edited, reload it
+autocmd! bufwritepost .vimrc source ~/.vimrc
+
 " Bundle start
 set nocompatible  " 取消兼容
 filetype off      " Bundle required
@@ -30,14 +39,9 @@ set helplang=cn "使用中文帮助
 " 模拟黑客帝国
 Plugin 'matrix.vim--Yang'
 
-" Powerline插件，状态栏增强显示
-" Plugin 'Lokaltog/vim-powerline'
-" set laststatus=2
-" set t_Co=256      " 指定配色方案为256色
-" let g:Powline_symbols='fancy'
-
 " Airline状态栏增强插件
 Plugin 'bling/vim-airline'
+set t_Co=256      " 指定配色方案为256色
 set laststatus=2
 " 使用powerline打过补丁的字体
 let g:airline_powerline_fonts = 1
@@ -52,6 +56,16 @@ let g:airline#extensions#tabline#buffer_nr_show = 1
 " 映射切换buffer的键位
 nnoremap [b :bp<CR>
 nnoremap ]b :bn<CR>
+" 映射<leader>num到num buffer
+map <leader>1 :b 1<CR>
+map <leader>2 :b 2<CR>
+map <leader>3 :b 3<CR>
+map <leader>4 :b 4<CR>
+map <leader>5 :b 5<CR>
+map <leader>6 :b 6<CR>
+map <leader>7 :b 7<CR>
+map <leader>8 :b 8<CR>
+map <leader>9 :b 9<CR>
 
 " 文件浏览器
 Plugin 'scrooloose/nerdtree'
@@ -82,6 +96,9 @@ Plugin 'jiangmiao/auto-pairs'
 
 " 批量选取
 " Plugin 'terryma/vim-multiple-cursors'
+
+" 快速搜索
+" Plugin 'ctrlpvim/ctrlp.vim'
 
 " The following are examples of different formats supported.
 " Keep Plugin commands between vundle#begin/end.
@@ -120,11 +137,9 @@ syntax enable     " 开启代码高亮
 "if has('gui_running')
 	set background=dark
 	"let g:solarized_termcolors=256
-	set t_Co=256
 	colorscheme solarized
 "else
 "	set background=light
-"	set t_Co=16
 "endif
 
 set hlsearch      " 开启搜索高亮
@@ -156,7 +171,6 @@ set guioptions=   " 取消边框
 " set guifont=DejaVu\ Sans\ Mono\ 15
 set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ 15 
 set backspace=indent,eol,start " alllow backspacing over everything in insert mode
-autocmd! bufwritepost .vimrc source ~/.vimrc
 if has('mouse')
 	set mouse=a
 endif
