@@ -142,27 +142,34 @@ syntax enable     " 开启代码高亮
 "	set background=light
 "endif
 
+" have Vim jump to the last position when reopening a file
+if has("autocmd")
+  au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+endif
+set showcmd			" Show (partial) command in status line.
+set showmatch		" Show matching brackets.
+set ignorecase		" Do case insensitive matching
+set smartcase		" Do smart case matching
+set incsearch		" Incremental search
+set autowrite		" Automatically save before commands like :next and :make
+set hidden			" Hide buffers when they are abandoned
+set backspace=indent,eol,start " allow backspacing over everything in insert mode
+set nobackup		" do not keep a backup file, use versions instead
+set history=50		" keep 50 lines of command line history
+set ruler			" show the cursor position all the time
+set autoindent		" always set autoindenting on
 set hlsearch      " 开启搜索高亮
-set incsearch     " 输入字符串的同时进行搜索
-set ignorecase    " 搜索忽略大小写
 set showmode      " 开启模式显示
-set ruler         " 开启光标位置显示
 set number        " 显示行号
 set cursorline    " 高亮光标所在行
 set cursorcolumn  " 高亮所在列
 set cmdheight=1   " 命令部分高度为2
-set autoindent    " 自动缩进
 set smartindent   " 智能缩进
 set autoread      " 当文件在外部改变时，vim自动更新内容
-set autowrite     " 设置自动存档
-set showmatch     " 显示匹配的括号
 set tabstop=4     " 制表符占四个空格
 set shiftwidth=4  " 默认缩进四个空格
-set history=50    " keep 50 lnes of command line history
-set showcmd       " display incomplate command
 set scrolloff=3
 set shortmess=atI " 取消欢迎界面
-set nobackup      " 不备份文件
 set noswapfile
 set fileencodings=utf-8
 set fileformats=unix,dos,mac
@@ -170,7 +177,6 @@ set pastetoggle=<F9>	" 插入代码按下F9取消自动缩进
 set guioptions=   " 取消边框
 " set guifont=DejaVu\ Sans\ Mono\ 15
 set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ 15 
-set backspace=indent,eol,start " alllow backspacing over everything in insert mode
 if has('mouse')
 	set mouse=a
 endif
