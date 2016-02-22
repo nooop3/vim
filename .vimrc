@@ -4,17 +4,8 @@
 "    Version:  1.0.1
 "    Email:    zhendongguan@gmail.com
 "    Blog: http://vimer.xyz
-"    Date: 2016-02-17
+"    Date: 2016-02-22
 " =======================================
-
-"Set mapleader
-let mapleader = ";"
-"Fast reloading of the .vimrc
-map <silent> <leader>ss :source ~/.vimrc<cr>
-"Fast editing of .vimrc
-map <silent> <leader>ee :e ~/.vimrc<cr>
-"When .vimrc is edited, reload it
-autocmd! bufwritepost .vimrc source ~/.vimrc
 
 " Bundle start
 set nocompatible  " 取消兼容
@@ -41,6 +32,7 @@ Plugin 'matrix.vim--Yang'
 
 " Airline状态栏增强插件
 Plugin 'bling/vim-airline'
+
 set t_Co=256      " 指定配色方案为256色
 set laststatus=2
 " 使用powerline打过补丁的字体
@@ -133,52 +125,78 @@ filetype plugin indent on    " required
 
 " End Bundle
 
-syntax enable     " 开启代码高亮
-"if has('gui_running')
-	set background=dark
-	"let g:solarized_termcolors=256
-	colorscheme solarized
-"else
-"	set background=light
-"endif
+" Set mapleader
+let mapleader = ";"
+let g:mapleader = ";"
+" Fast reloading of the .vimrc
+map <silent> <leader>ss :source ~/.vimrc<cr>
+" Fast editing of .vimrc
+map <silent> <leader>ee :e ~/.vimrc<cr>
+" When .vimrc is edited, reload it
+autocmd! bufwritepost .vimrc source ~/.vimrc
+" Fast saving
+nmap <Leader>w :w!<CR>
+" Disable highlight when <leader><cr> is pressed
+map <silent> <leader><cr> :set nohlsearch<cr>
 
 " have Vim jump to the last position when reopening a file
 if has("autocmd")
   au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 endif
+
+syntax enable     " 开启代码高亮
+set background=dark
+"let g:solarized_termcolors=256
+colorscheme solarized
+
 set showcmd			" Show (partial) command in status line.
 set showmatch		" Show matching brackets.
+set showmode        " Show Current mode
+set number          " Show line number
+set cmdheight=1     " Set number of the lines to use for the command-lines
+set autoread        " Auto read file when changed outside of vim
+set scrolloff=3       " Minimum number of lines above and below of cursor
 set ignorecase		" Do case insensitive matching
-set smartcase		" Do smart case matching
+set smartcase		" When searching try to be smart about cases 
 set incsearch		" Incremental search
+set hlsearch		" Highlight search results
 set autowrite		" Automatically save before commands like :next and :make
 set hidden			" Hide buffers when they are abandoned
-set backspace=indent,eol,start " allow backspacing over everything in insert mode
 set nobackup		" do not keep a backup file, use versions instead
 set history=50		" keep 50 lines of command line history
 set ruler			" show the cursor position all the time
+set cursorcolumn    " Highlight the screen column of the cursor
+set cursorline      " Highlight the screen line of the line
 set autoindent		" always set autoindenting on
-set hlsearch      " 开启搜索高亮
-set showmode      " 开启模式显示
-set number        " 显示行号
-set cursorline    " 高亮光标所在行
-set cursorcolumn  " 高亮所在列
-set cmdheight=1   " 命令部分高度为2
-set smartindent   " 智能缩进
-set autoread      " 当文件在外部改变时，vim自动更新内容
-set tabstop=4     " 制表符占四个空格
-set shiftwidth=4  " 默认缩进四个空格
-set scrolloff=3
-set shortmess=atI " 取消欢迎界面
-set noswapfile
+set smartindent     " Smart indent
+set expandtab		" Use Space instead of tabs
+set smarttab        " Be smart when using tabs:)
+set shiftwidth=4    " 1 tab == 4 space when (autu)indent
+set tabstop=4       " 1 tab = 4 spaces
+set wrap            " set word wrap
+set shortmess=atI   " Cancel the welcome screen
+set noswapfile		" Turn backup off
+set encoding=utf8   " Set utf8 as standard encoding and en_US as the standard language
 set fileencodings=utf-8
+" allow backspacing over everything in insert mode
+set backspace=indent,eol,start
+" Use Unix as the standard file type
 set fileformats=unix,dos,mac
+
 set pastetoggle=<F9>	" 插入代码按下F9取消自动缩进
 set guioptions=   " 取消边框
-" set guifont=DejaVu\ Sans\ Mono\ 15
 set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ 15 
 if has('mouse')
 	set mouse=a
 endif
 " Allow saving of files as sudo when I forgot to start vim using sudo.
 cmap w!! w !sudo tee > /dev/null %
+
+" Delete trailing white space on save, useful for Python and CoffeeScript ;)
+func! DeleteTrailingWS()
+  exe "normal mz"
+  %s/\s\+$//ge
+  exe "normal `z"
+endfunc
+autocmd BufWrite *.py :call DeleteTrailingWS()
+autocmd BufWrite *.coffee :call DeleteTrailingWS()
