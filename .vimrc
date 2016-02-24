@@ -7,6 +7,10 @@
 "    Date: 2016-02-22
 " =======================================
 
+" Set mapleader
+let mapleader = ";"
+let g:mapleader = ";"
+
 " Bundle start
 set nocompatible  " 取消兼容
 filetype off      " Bundle required
@@ -125,9 +129,6 @@ filetype plugin indent on    " required
 
 " End Bundle
 
-" Set mapleader
-let mapleader = ";"
-let g:mapleader = ";"
 " Fast reloading of the .vimrc
 map <silent> <leader>ss :source ~/.vimrc<cr>
 " Fast editing of .vimrc
@@ -135,7 +136,7 @@ map <silent> <leader>ee :e ~/.vimrc<cr>
 " When .vimrc is edited, reload it
 autocmd! bufwritepost .vimrc source ~/.vimrc
 " Fast saving
-nmap <Leader>w :w!<CR>
+map <leader>w :w!<CR>
 " Disable highlight when <leader><cr> is pressed
 map <silent> <leader><cr> :set nohlsearch<cr>
 
