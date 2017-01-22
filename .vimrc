@@ -4,7 +4,7 @@
 "    Version:  1.0.1
 "    Email:    zhendongguan@gmail.com
 "    Blog: http://vimer.xyz
-"    Date: 2016-02-22
+"    Date: 2016-01-22
 " =======================================
 
 " Set mapleader
@@ -37,7 +37,7 @@ Plugin 'matrix.vim--Yang'
 " Airline状态栏增强插件
 Plugin 'bling/vim-airline'
 
-set t_Co=256      " 指定配色方案为256色
+" set t_Co=256      " 指定配色方案为256色
 set laststatus=2
 " 使用powerline打过补丁的字体
 let g:airline_powerline_fonts = 1
@@ -96,6 +96,9 @@ Plugin 'jiangmiao/auto-pairs'
 " 快速搜索
 " Plugin 'ctrlpvim/ctrlp.vim'
 
+" php-cs-fixer
+Plugin 'stephpy/vim-php-cs-fixer'
+
 " The following are examples of different formats supported.
 " Keep Plugin commands between vundle#begin/end.
 " plugin on GitHub repo
@@ -146,9 +149,9 @@ if has("autocmd")
 endif
 
 syntax enable     " 开启代码高亮
-set background=dark
+"set background=dark
 "let g:solarized_termcolors=256
-colorscheme solarized
+"colorscheme solarized
 
 set showcmd			" Show (partial) command in status line.
 set showmatch		" Show matching brackets.
@@ -166,8 +169,8 @@ set hidden			" Hide buffers when they are abandoned
 set nobackup		" do not keep a backup file, use versions instead
 set history=50		" keep 50 lines of command line history
 set ruler			" show the cursor position all the time
-set cursorcolumn    " Highlight the screen column of the cursor
-set cursorline      " Highlight the screen line of the line
+"set cursorcolumn    " Highlight the screen column of the cursor
+"set cursorline      " Highlight the screen line of the line
 set autoindent		" always set autoindenting on
 set smartindent     " Smart indent
 set expandtab		" Use Space instead of tabs
@@ -186,7 +189,7 @@ set fileformats=unix,dos,mac
 
 set pastetoggle=<F9>	" 插入代码按下F9取消自动缩进
 set guioptions=   " 取消边框
-set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ 15 
+" set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ 15 
 if has('mouse')
 	set mouse=a
 endif
