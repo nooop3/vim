@@ -1,10 +1,10 @@
 " ======================================
 "    FileName: .vimrc
 "    Author:   Edward Green
-"    Version:  1.0.1
+"    Version:  1.0.2
 "    Email:    zhendongguan@gmail.com
 "    Blog: http://vimer.xyz
-"    Date: 2016-01-22
+"    Date: 2017-02-22
 " =======================================
 
 " Set mapleader
@@ -37,7 +37,7 @@ Plugin 'matrix.vim--Yang'
 " Airline状态栏增强插件
 Plugin 'bling/vim-airline'
 
-" set t_Co=256      " 指定配色方案为256色
+set t_Co=256      " 指定配色方案为256色
 set laststatus=2
 " 使用powerline打过补丁的字体
 let g:airline_powerline_fonts = 1
@@ -68,7 +68,7 @@ Plugin 'scrooloose/nerdtree'
 " open a NERDTree aotomatically
 " autocmd vimenter * NERDTree
 " open NERDTree with Ctrl-n
-map <C-z> :NERDTreeToggle<CR>
+map <C-n> :NERDTreeToggle<CR>
 " open a NERDTree automatically when vim starts up if no files were specified
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
@@ -97,7 +97,7 @@ Plugin 'jiangmiao/auto-pairs'
 " Plugin 'ctrlpvim/ctrlp.vim'
 
 " php-cs-fixer
-Plugin 'stephpy/vim-php-cs-fixer'
+" Plugin 'stephpy/vim-php-cs-fixer'
 
 " The following are examples of different formats supported.
 " Keep Plugin commands between vundle#begin/end.
@@ -149,9 +149,10 @@ if has("autocmd")
 endif
 
 syntax enable     " 开启代码高亮
-"set background=dark
-"let g:solarized_termcolors=256
-"colorscheme solarized
+set background=dark
+" let g:solarized_termcolors=256
+let g:solarized_termtrans = 1
+colorscheme solarized
 
 set showcmd			" Show (partial) command in status line.
 set showmatch		" Show matching brackets.
@@ -159,7 +160,7 @@ set showmode        " Show Current mode
 set number          " Show line number
 set cmdheight=1     " Set number of the lines to use for the command-lines
 set autoread        " Auto read file when changed outside of vim
-set scrolloff=3       " Minimum number of lines above and below of cursor
+set scrolloff=3     " Minimum number of lines above and below of cursor
 set ignorecase		" Do case insensitive matching
 set smartcase		" When searching try to be smart about cases 
 set incsearch		" Incremental search
@@ -169,8 +170,8 @@ set hidden			" Hide buffers when they are abandoned
 set nobackup		" do not keep a backup file, use versions instead
 set history=50		" keep 50 lines of command line history
 set ruler			" show the cursor position all the time
-"set cursorcolumn    " Highlight the screen column of the cursor
-"set cursorline      " Highlight the screen line of the line
+set cursorcolumn    " Highlight the screen column of the cursor
+set cursorline      " Highlight the screen line of the line
 set autoindent		" always set autoindenting on
 set smartindent     " Smart indent
 set expandtab		" Use Space instead of tabs
@@ -181,14 +182,31 @@ set wrap            " set word wrap
 set shortmess=atI   " Cancel the welcome screen
 set noswapfile		" Turn backup off
 set encoding=utf8   " Set utf8 as standard encoding and en_US as the standard language
+set pastetoggle=<F9>	" 插入代码按下F9取消自动缩进
+set guioptions=   " 取消边框
 set fileencodings=utf-8
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
 " Use Unix as the standard file type
 set fileformats=unix,dos,mac
+" Configured Cursor Color
+" Black ;DarkBlue ;DarkGreen ;DarkCyan ;DarkRed ;DarkMagenta ;
+" Brown, DarkYellow ;LightGray, LightGrey, Gray, Grey ;
+" DarkGray, DarkGrey ;Blue, LightBlue ;Green, LightGreen ;
+" Cyan, LightCyan ;Red, LightRed ;Magenta, LightMagenta ;
+" Yellow, LightYellow ;White
+highlight CursorLine ctermbg=DarkBlue
+highlight CursorColumn ctermbg=DarkBlue
 
-set pastetoggle=<F9>	" 插入代码按下F9取消自动缩进
-set guioptions=   " 取消边框
+" Swap iTerm2 cursors in vim insert mode when using tmux
+if exists('$TMUX')
+  let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
+  let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+else
+  let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+  let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+endif
+
 " set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ 15 
 if has('mouse')
 	set mouse=a
