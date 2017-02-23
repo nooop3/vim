@@ -67,6 +67,9 @@ Plugin 'jiangmiao/auto-pairs'
 " php-cs-fixer
 " Plugin 'stephpy/vim-php-cs-fixer'
 
+" vim-go
+Plugin 'fatih/vim-go'
+
 " The following are examples of different formats supported.
 " Keep Plugin commands between vundle#begin/end.
 " plugin on GitHub repo
@@ -157,6 +160,15 @@ let g:neocomplete#enable_at_startup=1
 let g:neocomplete#enable_smart_case=1
 " Enable auto select
 let g:neocomplete#enable_auto_select=1
+
+" vim-go
+au FileType go nmap <leader>g  :<C-u>w !go run %<cr>
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_types = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_build_constraints = 1
 
 """""""""""""""""""""""""""
 " Keybind Setting
