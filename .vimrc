@@ -45,6 +45,9 @@ Plugin 'bling/vim-airline'
 " 文件浏览器
 Plugin 'scrooloose/nerdtree'
 
+" 代码注释快捷键
+Plugin 'scrooloose/nerdcommenter'
+
 " 前端快捷补齐
 Plugin 'mattn/emmet-vim'
 							
@@ -106,7 +109,7 @@ filetype plugin indent on    " required
 " Solarized
 set background=dark
 " let g:solarized_termcolors=256
-let g:solarized_termtrans = 1
+let g:solarized_termtrans=1
 colorscheme solarized
 
 " 中文帮助
@@ -116,15 +119,15 @@ set helplang=cn "使用中文帮助
 set t_Co=256      " 指定配色方案为256色
 set laststatus=2
 " 使用powerline打过补丁的字体
-let g:airline_powerline_fonts = 1
+let g:airline_powerline_fonts=1
 " 开启tabline
-let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#enabled=1
 " tabline中当前buffer两端的分隔字符
 let g:airline#extensions#tabline#left_sep = ' '
 " tabline中未激活buffer两端的分隔字符
 let g:airline#extensions#tabline#left_alt_sep = '|'
 " tabline中buffer显示编号
-let g:airline#extensions#tabline#buffer_nr_show = 1
+let g:airline#extensions#tabline#buffer_nr_show=1
 
 " NERDTree
 " open a NERDTree aotomatically
@@ -137,15 +140,21 @@ autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 " close vim if the only window left open is a NERDTree
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 
+" NERDCommenter
+let g:NERDSpaceDelims=1
+let g:NERDCompactSextComs=1
+let g:NERDTrimTrailingWhitespace=1
+
 " Emmet
 " 设置快捷键为<tab>
 let g:user_emmet_expandabbr_key = '<C-d>'
 " let g:user_emmet_expandabbr_key = '<Tab>'
 
 " neocomplete
-" 启动开启代码补全
-" let g:neocomplcache_enable_at_startup = 1
-let g:neocomplete#enable_at_startup = 1
+" let g:neocomplcache_enable_at_startup=1
+let g:neocomplete#enable_at_startup=1
+" Use smartcase
+let g:neocomplete#enable_smart_case=1
 
 """""""""""""""""""""""""""
 " Keybind Setting
