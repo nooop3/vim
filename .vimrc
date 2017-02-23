@@ -155,6 +155,8 @@ let g:user_emmet_expandabbr_key = '<C-d>'
 let g:neocomplete#enable_at_startup=1
 " Use smartcase
 let g:neocomplete#enable_smart_case=1
+" Enable auto select
+let g:neocomplete#enable_auto_select=1
 
 """""""""""""""""""""""""""
 " Keybind Setting
