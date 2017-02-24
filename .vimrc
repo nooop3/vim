@@ -266,7 +266,7 @@ else
   let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 endif
 
-" set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ 15 
+set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ 14
 if has('mouse')
 	set mouse=a
 endif
