@@ -235,6 +235,8 @@ set wrap            " set word wrap
 set shortmess=atI   " Cancel the welcome screen
 set noswapfile		" Turn backup off
 set linebreak       " 不在单词中间断行
+set completeopt-=preview
+" disable perview
 set wildmenu
 " 在命令模式下使用 Tab 自动补全的时候，将补全内容使用一个漂亮的单行菜单形式显示出来。
 set whichwrap=b,<,>,[,],h,l
