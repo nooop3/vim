@@ -70,6 +70,9 @@ Plugin 'jiangmiao/auto-pairs'
 " vim-go
 Plugin 'fatih/vim-go'
 
+" spotify search
+Plugin 'takac/vim-spotifysearch'
+
 " The following are examples of different formats supported.
 " Keep Plugin commands between vundle#begin/end.
 " plugin on GitHub repo
@@ -169,6 +172,11 @@ let g:go_highlight_fields = 1
 let g:go_highlight_types = 1
 let g:go_highlight_operators = 1
 let g:go_highlight_build_constraints = 1
+
+" spotify search
+" let g:spotify_prev_key = "<F9>"
+" let g:spotify_playpause_key = "<F10>"
+" let g:spotify_next_key = "<F11>"
 
 """""""""""""""""""""""""""
 " Keybind Setting
