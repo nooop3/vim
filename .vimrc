@@ -73,9 +73,6 @@ Plugin 'jiangmiao/auto-pairs'
 " vim-go
 Plugin 'fatih/vim-go'
 
-" spotify search
-Plugin 'takac/vim-spotifysearch'
-
 " Simple fold
 Plugin 'tmhedberg/SimpylFold'
 
@@ -191,11 +188,6 @@ let g:go_highlight_fields = 1
 let g:go_highlight_types = 1
 let g:go_highlight_operators = 1
 let g:go_highlight_build_constraints = 1
-
-" spotify search
-" let g:spotify_prev_key = "<F9>"
-" let g:spotify_playpause_key = "<F10>"
-" let g:spotify_next_key = "<F11>"
 
 " SimpylFold
 let g:SimpylFold_docstring_preview=1
