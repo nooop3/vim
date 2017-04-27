@@ -30,6 +30,9 @@ call vundle#begin('~/.vim/bundle/plugin')
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 
+" Color Schemes
+Plugin 'morhetz/gruvbox'
+
 " 经典配色方案
 Plugin 'altercation/vim-colors-solarized' 
 
@@ -73,6 +76,18 @@ Plugin 'fatih/vim-go'
 " spotify search
 Plugin 'takac/vim-spotifysearch'
 
+" Simple fold
+Plugin 'tmhedberg/SimpylFold'
+
+" python indent
+Plugin 'vim-scripts/indentpython.vim'
+
+" Syntax checking
+Plugin 'vim-scripts/syntastic'
+
+" python mode
+Plugin 'python-mode/python-mode'
+
 " The following are examples of different formats supported.
 " Keep Plugin commands between vundle#begin/end.
 " plugin on GitHub repo
@@ -112,11 +127,15 @@ filetype plugin indent on    " required
 " Plugin Configure
 """""""""""""""""""""""""""
 
-" Solarized
+" Color Schemes Configure
 set background=dark
-" let g:solarized_termcolors=256
-" let g:solarized_termtrans=1
-colorscheme solarized
+if has('gui_running')
+    " let g:solarized_termcolors=256
+    " let g:solarized_termtrans=1
+    colorscheme solarized
+else
+    colorscheme gruvbox
+endif
 
 " 中文帮助
 set helplang=cn "使用中文帮助
@@ -178,6 +197,22 @@ let g:go_highlight_build_constraints = 1
 " let g:spotify_playpause_key = "<F10>"
 " let g:spotify_next_key = "<F11>"
 
+" SimpylFold
+let g:SimpylFold_docstring_preview=1
+
+" syntastic
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
+" python-mode
+let g:pymode_python = 'python3'
+
 """""""""""""""""""""""""""
 " Keybind Setting
 """""""""""""""""""""""""""
@@ -220,9 +255,7 @@ set incsearch		" Incremental search
 set hlsearch		" Highlight search results
 set expandtab		" Use Space instead of tabs
 set smarttab        " Be smart when using tabs:)
-set shiftwidth=4    " 1 tab = 4 spaces when (autu)indent
-set softtabstop=4
-set tabstop=4       " 1 tab = 4 spaces
+set textwidth=79
 set scrolloff=5     " Minimum number of lines above and below of cursor
 set history=50		" keep 50 lines of command line history
 set ruler			" show the cursor position all the time
@@ -243,7 +276,12 @@ set wrap            " set word wrap
 set shortmess=atI   " Cancel the welcome screen
 set noswapfile		" Turn backup off
 set linebreak       " 不在单词中间断行
-set completeopt-=preview
+" Enable folding
+set foldmethod=indent
+set foldlevel=99
+" Enable folding with the spacebar
+nnoremap <space> za
+" set completeopt-=preview
 " disable perview
 set wildmenu
 " 在命令模式下使用 Tab 自动补全的时候，将补全内容使用一个漂亮的单行菜单形式显示出来。
@@ -257,7 +295,7 @@ set guioptions=   " 取消边框
 set fileencodings=utf-8
 set encoding=utf8   " Set utf8 as standard encoding and en_US as the standard language
 " allow backspacing over everything in insert mode
-set fileformats=unix,dos,mac
+set fileformats=unix
 " Configured Cursor Color
 " Black ;DarkBlue ;DarkGreen ;DarkCyan ;DarkRed ;DarkMagenta ;
 " Brown, DarkYellow ;LightGray, LightGrey, Gray, Grey ;
@@ -289,6 +327,16 @@ func! DeleteTrailingWS()
   %s/\s\+$//ge
   exe "normal `z"
 endfunc
+
+autocmd BufNewFile,BufRead *.py
+    \ set tabstop=4       " 1 tab = 4 spaces
+    \ set softtabstop=4
+    \ set shiftwidth=4    " 1 tab = 4 spaces when (autu)indent
+autocmd BufNewFile,BufRead *.js, *.html, *.css
+    \ set tabstop=2
+    \ set softtabstop=2
+    \ set shiftwidth=2
+
 autocmd BufWrite *.py :call DeleteTrailingWS()
 autocmd BufWrite *.coffee :call DeleteTrailingWS()
 
