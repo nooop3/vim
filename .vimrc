@@ -201,9 +201,14 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
+let g:syntastic_mode_map = {
+  \ "mode": "active",
+  \ "active_filetypes": ["php"],
+  \ "passive_filetypes": ['python'] }
 
 " python-mode
 let g:pymode_python = 'python3'
+" let g:pymode_rope=0
 
 """""""""""""""""""""""""""
 " Keybind Setting
@@ -320,14 +325,18 @@ func! DeleteTrailingWS()
   exe "normal `z"
 endfunc
 
+set tabstop=2
+set softtabstop=2
+set shiftwidth=2
+
 autocmd BufNewFile,BufRead *.py
     \ set tabstop=4       " 1 tab = 4 spaces
     \ set softtabstop=4
     \ set shiftwidth=4    " 1 tab = 4 spaces when (autu)indent
-autocmd BufNewFile,BufRead *.js, *.html, *.css
-    \ set tabstop=2
-    \ set softtabstop=2
-    \ set shiftwidth=2
+" autocmd BufNewFile,BufRead *.js, *.html, *.css
+    " \ set tabstop=2
+    " \ set softtabstop=2
+    " \ set shiftwidth=2
 
 autocmd BufWrite *.py :call DeleteTrailingWS()
 autocmd BufWrite *.coffee :call DeleteTrailingWS()
