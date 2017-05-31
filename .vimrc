@@ -327,9 +327,9 @@ func! DeleteTrailingWS()
   exe "normal `z"
 endfunc
 
-set tabstop=2
-set softtabstop=2
-set shiftwidth=2
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
 
 autocmd BufNewFile,BufRead *.py
     \ set tabstop=4       " 1 tab = 4 spaces
