@@ -179,6 +179,7 @@ let g:neocomplete#enable_at_startup=1
 let g:neocomplete#enable_smart_case=1
 " Enable auto select
 let g:neocomplete#enable_auto_select=1
+au FileType python  setlocal omnifunc=python3complete#Complete
 
 " vim-go
 au FileType go nmap <leader>g  :<C-u>w !go run %<cr>
