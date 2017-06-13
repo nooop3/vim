@@ -1,10 +1,10 @@
 " ======================================
 "    FileName: .vimrc
 "    Author:   Edward Green
-"    Version:  1.0.3
+"    Version:  1.0.5
 "    Email:    zhendongguan@gmail.com
 "    Blog: https://uare.github.io
-"    Date: 2017-02-23
+"    Date: 2017-06-13
 " =======================================
 
 
@@ -70,9 +70,6 @@ Plugin 'jiangmiao/auto-pairs'
 " php-cs-fixer
 " Plugin 'stephpy/vim-php-cs-fixer'
 
-" vim-go
-Plugin 'fatih/vim-go'
-
 " Simple fold
 Plugin 'tmhedberg/SimpylFold'
 
@@ -82,8 +79,14 @@ Plugin 'vim-scripts/indentpython.vim'
 " Syntax checking
 Plugin 'vim-scripts/syntastic'
 
+" vim-go
+Plugin 'fatih/vim-go'
+
 " python mode
 Plugin 'python-mode/python-mode'
+
+" vim-javascript
+Plugin 'pangloss/vim-javascript'
 
 " The following are examples of different formats supported.
 " Keep Plugin commands between vundle#begin/end.
@@ -181,15 +184,6 @@ let g:neocomplete#enable_smart_case=1
 let g:neocomplete#enable_auto_select=1
 au FileType python  setlocal omnifunc=python3complete#Complete
 
-" vim-go
-au FileType go nmap <leader>g  :<C-u>w !go run %<cr>
-let g:go_highlight_functions = 1
-let g:go_highlight_methods = 1
-let g:go_highlight_fields = 1
-let g:go_highlight_types = 1
-let g:go_highlight_operators = 1
-let g:go_highlight_build_constraints = 1
-
 " SimpylFold
 let g:SimpylFold_docstring_preview=1
 
@@ -207,6 +201,15 @@ let g:syntastic_mode_map = {
   \ "active_filetypes": ["php"],
   \ "passive_filetypes": ['python'] }
 
+" vim-go
+au FileType go nmap <leader>g  :<C-u>w !go run %<cr>
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_types = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_build_constraints = 1
+
 " python-mode
 let g:pymode_python = 'python3'
 let g:pymode_rope = 0
@@ -218,6 +221,16 @@ let g:pymode_rope = 0
 " let g:pymode_lint_ignore = "C901"
 " open window vertically
 " autocmd BufEnter __run__,__doc__ :wincmd L
+
+" vim-javascript
+" Enables syntax highlight for JSDocs
+let g:javascript_plugin_jsdoc = 1
+" Enables some additional syntax highlight for NGDocs.
+" Requires JSDocs plugin to be enabled as well
+let g:javascript_plugin_ngdoc = 1
+" Enables syntax highlight for Flow
+let g:javascript_plugin_flow = 1
+
 
 """""""""""""""""""""""""""
 " Keybind Setting
