@@ -210,6 +210,12 @@ let g:syntastic_mode_map = {
 " python-mode
 let g:pymode_python = 'python3'
 let g:pymode_rope = 0
+" Check code on every save (every)
+" let g:pymode_lint_unmodified = 1
+" skip tab warnings
+" let g:pymode_lint_ignore = "E501,C901"
+" let g:pymode_lint_ignore = "E191"
+" let g:pymode_lint_ignore = "C901"
 " open window vertically
 " autocmd BufEnter __run__,__doc__ :wincmd L
 
@@ -253,6 +259,9 @@ set ignorecase		" Do case insensitive matching
 set smartcase		" When searching try to be smart about cases 
 set incsearch		" Incremental search
 set hlsearch		" Highlight search results
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
 set expandtab		" Use Space instead of tabs
 set smarttab        " Be smart when using tabs:)
 set textwidth=79
@@ -281,7 +290,7 @@ set foldmethod=indent
 set foldlevel=99
 " Enable folding with the spacebar
 nnoremap <space> za
-" set completeopt-=preview
+set completeopt-=preview
 " disable perview
 set wildmenu
 " 在命令模式下使用 Tab 自动补全的时候，将补全内容使用一个漂亮的单行菜单形式显示出来。
@@ -328,19 +337,48 @@ func! DeleteTrailingWS()
   exe "normal `z"
 endfunc
 
-set tabstop=4
-set softtabstop=4
-set shiftwidth=4
-
-autocmd BufNewFile,BufRead *.py
-    \ set tabstop=4       " 1 tab = 4 spaces
-    \ set softtabstop=4
-    \ set shiftwidth=4    " 1 tab = 4 spaces when (autu)indent
 " autocmd BufNewFile,BufRead *.js, *.html, *.css
     " \ set tabstop=2
     " \ set softtabstop=2
     " \ set shiftwidth=2
 
-autocmd BufWrite *.py :call DeleteTrailingWS()
+
+" Indent Python in the Google way.
+
+setlocal indentexpr=GetGooglePythonIndent(v:lnum)
+
+let s:maxoff = 50 " maximum number of lines to look backwards.
+
+function! GetGooglePythonIndent(lnum)
+
+  " Indent inside parens.
+  " Align with the open paren unless it is at the end of the line.
+  " E.g.
+  "   open_paren_not_at_EOL(100,
+  "                         (200,
+  "                          300),
+  "                         400)
+  "   open_paren_at_EOL(
+  "       100, 200, 300, 400)
+  call cursor(a:lnum, 1)
+  let [par_line, par_col] = searchpairpos('(\|{\|\[', '', ')\|}\|\]', 'bW',
+        \ "line('.') < " . (a:lnum - s:maxoff) . " ? dummy :"
+        \ . " synIDattr(synID(line('.'), col('.'), 1), 'name')"
+        \ . " =~ '\\(Comment\\|String\\)$'")
+  if par_line > 0
+    call cursor(par_line, 1)
+    if par_col != col("$") - 1
+      return par_col
+    endif
+  endif
+
+  " Delegate the rest to the original function.
+  return GetPythonIndent(a:lnum)
+
+endfunction
+
+let pyindent_nested_paren="&sw*2"
+let pyindent_open_paren="&sw*2"
+
 autocmd BufWrite *.coffee :call DeleteTrailingWS()
 
