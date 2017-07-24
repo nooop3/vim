@@ -216,7 +216,8 @@ let g:pymode_rope = 0
 " Check code on every save (every)
 " let g:pymode_lint_unmodified = 1
 " skip tab warnings
-" let g:pymode_lint_ignore = "E501,C901"
+let g:pymode_lint_ignore = "E501,C901"
+" let g:pymode_lint_ignore = "E501"
 " let g:pymode_lint_ignore = "E191"
 " let g:pymode_lint_ignore = "C901"
 " open window vertically
