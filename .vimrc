@@ -199,7 +199,7 @@ let g:syntastic_check_on_wq = 0
 let g:syntastic_mode_map = {
   \ "mode": "active",
   \ "active_filetypes": ["php"],
-  \ "passive_filetypes": ['python'] }
+  \ "passive_filetypes": ['python', 'go'] }
 
 " vim-go
 au FileType go nmap <leader>g  :<C-u>w !go run %<cr>
