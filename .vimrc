@@ -34,7 +34,7 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'morhetz/gruvbox'
 
 " 经典配色方案
-Plugin 'altercation/vim-colors-solarized' 
+Plugin 'altercation/vim-colors-solarized'
 
 " 中文帮助
 Plugin 'asins/vimcdoc'
@@ -53,7 +53,7 @@ Plugin 'scrooloose/nerdcommenter'
 
 " 前端快捷补齐
 Plugin 'mattn/emmet-vim'
-							
+
 " 代码补全
 " Plugin 'Shougo/neocomplcache.vim'
 Plugin 'Shougo/neocomplete.vim'
@@ -87,6 +87,9 @@ Plugin 'python-mode/python-mode'
 
 " vim-javascript
 Plugin 'pangloss/vim-javascript'
+
+" novim-mode
+" Plugin 'tombh/novim-mode'
 
 " The following are examples of different formats supported.
 " Keep Plugin commands between vundle#begin/end.
@@ -270,7 +273,7 @@ syntax enable       " 开启代码高亮
 
 set number          " Show line number
 set ignorecase		" Do case insensitive matching
-set smartcase		" When searching try to be smart about cases 
+set smartcase		" When searching try to be smart about cases
 set incsearch		" Incremental search
 set hlsearch		" Highlight search results
 set tabstop=4
@@ -395,4 +398,3 @@ let pyindent_nested_paren="&sw*2"
 let pyindent_open_paren="&sw*2"
 
 autocmd BufWrite *.coffee :call DeleteTrailingWS()
-
