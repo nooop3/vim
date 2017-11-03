@@ -1,10 +1,10 @@
 " ======================================
 "    FileName: .vimrc
 "    Author:   Edward Green
-"    Version:  1.0.5
+"    Version:  1.0.6
 "    Email:    zhendongguan@gmail.com
 "    Blog: https://uare.github.io
-"    Date: 2017-06-13
+"    Date: 2017-11-03
 " =======================================
 
 
@@ -65,7 +65,7 @@ Plugin 'jiangmiao/auto-pairs'
 " Plugin 'terryma/vim-multiple-cursors'
 
 " 快速搜索
-" Plugin 'ctrlpvim/ctrlp.vim'
+Plugin 'ctrlpvim/ctrlp.vim'
 
 " php-cs-fixer
 " Plugin 'stephpy/vim-php-cs-fixer'
@@ -110,9 +110,8 @@ Plugin 'pangloss/vim-javascript'
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 
+filetype plugin on
 filetype plugin indent on    " required
-" To ignore plugin indent changes, instead use:
-" filetype plugin on
 
 " Brief help
 " :PluginList       - lists configured plugins
@@ -235,6 +234,17 @@ let g:javascript_plugin_ngdoc = 1
 " Enables syntax highlight for Flow
 let g:javascript_plugin_flow = 1
 
+" ctrlp
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip     " MacOSX/Linux
+" set wildignore+=*\\tmp\\*,*.swp,*.zip,*.exe  " Windows
+
+let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\v[\/]\.(git|hg|svn)$',
+  \ 'file': '\v\.(exe|so|dll)$',
+  \ 'link': 'some_bad_symbolic_links',
+  \ }
+
 
 """""""""""""""""""""""""""
 " Keybind Setting
@@ -302,6 +312,8 @@ set wrap            " set word wrap
 set shortmess=atI   " Cancel the welcome screen
 set noswapfile		" Turn backup off
 set linebreak       " 不在单词中间断行
+set splitright
+set splitbelow
 " Enable folding
 set foldmethod=indent
 set foldlevel=99
@@ -321,6 +333,7 @@ set guioptions=   " 取消边框
 set fileencodings=utf-8
 set encoding=utf8   " Set utf8 as standard encoding and en_US as the standard language
 " allow backspacing over everything in insert mode
+set fileformat=unix
 set fileformats=unix
 " Configured Cursor Color
 " Black ;DarkBlue ;DarkGreen ;DarkCyan ;DarkRed ;DarkMagenta ;
@@ -354,11 +367,10 @@ func! DeleteTrailingWS()
   exe "normal `z"
 endfunc
 
-" autocmd BufNewFile,BufRead *.js, *.html, *.css
-    " \ set tabstop=2
-    " \ set softtabstop=2
-    " \ set shiftwidth=2
-
+autocmd BufNewFile,BufRead *.js, *.html, *.css
+    \ set tabstop=2
+    \ set softtabstop=2
+    \ set shiftwidth=2
 
 " Indent Python in the Google way.
 
@@ -397,4 +409,4 @@ endfunction
 let pyindent_nested_paren="&sw*2"
 let pyindent_open_paren="&sw*2"
 
-autocmd BufWrite *.coffee :call DeleteTrailingWS()
+autocmd BufWrite *.py,*.pyw,*.c,*.h,*.coffee :call DeleteTrailingWS()
