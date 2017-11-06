@@ -367,11 +367,6 @@ func! DeleteTrailingWS()
   exe "normal `z"
 endfunc
 
-autocmd BufNewFile,BufRead *.js, *.html, *.css
-    \ set tabstop=2
-    \ set softtabstop=2
-    \ set shiftwidth=2
-
 " Indent Python in the Google way.
 
 setlocal indentexpr=GetGooglePythonIndent(v:lnum)
@@ -410,3 +405,8 @@ let pyindent_nested_paren="&sw*2"
 let pyindent_open_paren="&sw*2"
 
 autocmd BufWrite *.py,*.pyw,*.c,*.h,*.coffee :call DeleteTrailingWS()
+
+autocmd BufNewFile,BufRead *.js,*.html,*.css
+    \ set tabstop=2 |
+    \ set softtabstop=2 |
+    \ set shiftwidth=2
