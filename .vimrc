@@ -168,10 +168,10 @@ set wildignore+=*/tmp/*,*.so,*.swp,*.zip     " MacOSX/Linux
 " set wildignore+=*\\tmp\\*,*.swp,*.zip,*.exe  " Windows
 
 let g:ctrlp_custom_ignore = {
-  \ 'dir':  '\v[\/](node_modules|target|dist)|(\.(swp|ico|git|svn))$',
-  \ 'file': '\v\.(exe|so|dll)$',
-  \ 'link': 'some_bad_symbolic_links',
-  \ }
+    \ 'dir':  '\v[\/](node_modules|target|dist)|(\.(swp|ico|git|svn))$',
+    \ 'file': '\v\.(exe|so|dll)$',
+    \ 'link': 'some_bad_symbolic_links',
+    \ }
 
 " NERDTree
 " open a NERDTree aotomatically
@@ -216,9 +216,9 @@ let g:NERDTrimTrailingWhitespace=1
 " let g:syntastic_check_on_open = 1
 " let g:syntastic_check_on_wq = 0
 " let g:syntastic_mode_map = {
-  " \ "mode": "active",
-  " \ "active_filetypes": ["php"],
-  " \ "passive_filetypes": ['python', 'go'] }
+    " \ "mode": "active",
+    " \ "active_filetypes": ["php"],
+    " \ "passive_filetypes": ['python', 'go'] }
 
 " Emmet
 " 设置快捷键为<tab>
@@ -243,7 +243,7 @@ let g:pymode_lint_unmodified = 1
 let g:pymode_options_max_line_length = 120
 let g:pymode_lint_options_pep8 = 
     \ {'ignore': '',
-    \ 'max_line_length': g:pymode_options_max_line_length}
+       \ 'max_line_length': g:pymode_options_max_line_length}
 let g:pymode_lint_options_mccabe = { 'complexity': 50 }
 " skip tab warnings
 " let g:pymode_lint_ignore = "E501,C901"
@@ -282,7 +282,7 @@ map <leader>w :w!<CR>
 map <silent> <leader><CR> :set nohlsearch<CR>
 " have Vim jump to the last position when reopening a file
 if has("autocmd")
-  au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+    au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 endif
 
 " 映射切换buffer的键位
@@ -366,25 +366,25 @@ set fileformats=unix
 
 " Swap iTerm2 cursors in vim insert mode when using tmux
 if exists('$TMUX')
-  let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
-  let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+    let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
+    let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
 else
-  let &t_SI = "\<Esc>]50;CursorShape=1\x7"
-  let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+    let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+    let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 endif
 
 set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ 14
 if has('mouse')
-	set mouse=a
+    set mouse=a
 endif
 " Allow saving of files as sudo when I forgot to start vim using sudo.
 cmap w!! w !sudo tee > /dev/null %
 
 " Delete trailing white space on save, useful for Python and CoffeeScript ;)
 func! DeleteTrailingWS()
-  exe "normal mz"
-  %s/\s\+$//ge
-  exe "normal `z"
+    exe "normal mz"
+    %s/\s\+$//ge
+    exe "normal `z"
 endfunc
 
 " Indent Python in the Google way.
@@ -394,31 +394,28 @@ setlocal indentexpr=GetGooglePythonIndent(v:lnum)
 let s:maxoff = 50 " maximum number of lines to look backwards.
 
 function! GetGooglePythonIndent(lnum)
-
-  " Indent inside parens.
-  " Align with the open paren unless it is at the end of the line.
-  " E.g.
-  "   open_paren_not_at_EOL(100,
-  "                         (200,
-  "                          300),
-  "                         400)
-  "   open_paren_at_EOL(
-  "       100, 200, 300, 400)
-  call cursor(a:lnum, 1)
-  let [par_line, par_col] = searchpairpos('(\|{\|\[', '', ')\|}\|\]', 'bW',
-        \ "line('.') < " . (a:lnum - s:maxoff) . " ? dummy :"
-        \ . " synIDattr(synID(line('.'), col('.'), 1), 'name')"
-        \ . " =~ '\\(Comment\\|String\\)$'")
-  if par_line > 0
-    call cursor(par_line, 1)
-    if par_col != col("$") - 1
-      return par_col
+    " Indent inside parens.
+    " Align with the open paren unless it is at the end of the line.
+    " E.g.
+    "   open_paren_not_at_EOL(100,
+    "                         (200,
+    "                          300),
+    "                         400)
+    "   open_paren_at_EOL(
+    "       100, 200, 300, 400)
+    call cursor(a:lnum, 1)
+    let [par_line, par_col] = searchpairpos('(\|{\|\[', '', ')\|}\|\]', 'bW',
+                                            \ "line('.') < " . (a:lnum - s:maxoff) . " ? dummy :"
+                                            \ . " synIDattr(synID(line('.'), col('.'), 1), 'name')"
+                                            \ . " =~ '\\(Comment\\|String\\)$'")
+    if par_line > 0
+        call cursor(par_line, 1)
+        if par_col != col("$") - 1
+            return par_col
+        endif
     endif
-  endif
-
-  " Delegate the rest to the original function.
-  return GetPythonIndent(a:lnum)
-
+    " Delegate the rest to the original function.
+    return GetPythonIndent(a:lnum)
 endfunction
 
 let pyindent_nested_paren="&sw*2"
