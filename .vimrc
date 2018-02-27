@@ -62,7 +62,7 @@ Plugin 'jiangmiao/auto-pairs'
 Plugin 'scrooloose/nerdcommenter'
 
 " Syntax checking
-" Plugin 'vim-scripts/syntastic'
+Plugin 'w0rp/ale'
 
 " 批量选取
 " Plugin 'terryma/vim-multiple-cursors'
@@ -206,19 +206,14 @@ let g:NERDSpaceDelims=1
 let g:NERDCompactSextComs=1
 let g:NERDTrimTrailingWhitespace=1
 
-" syntastic
-" set statusline+=%#warningmsg#
-" set statusline+=%{SyntasticStatuslineFlag()}
-" set statusline+=%*
-
-" let g:syntastic_always_populate_loc_list = 1
-" let g:syntastic_auto_loc_list = 1
-" let g:syntastic_check_on_open = 1
-" let g:syntastic_check_on_wq = 0
-" let g:syntastic_mode_map = {
-    " \ "mode": "active",
-    " \ "active_filetypes": ["php"],
-    " \ "passive_filetypes": ['python', 'go'] }
+" ale
+let g:ale_linters = {
+\   'javascript': ['eslint'],
+\   'python': ['flake8']
+\}
+let g:ale_javascript_eslint_use_global = 1
+" Set this. Airline will handle the rest.
+let g:airline#extensions#ale#enabled = 1
 
 " Emmet
 " 设置快捷键为<tab>
@@ -423,7 +418,7 @@ let pyindent_open_paren="&sw*2"
 
 autocmd BufWrite *.py,*.pyw,*.c,*.h,*.coffee :call DeleteTrailingWS()
 
-autocmd BufNewFile,BufRead *.js,*.html,*.css
+autocmd BufNewFile,BufRead *.js,*.ts,*tsx,*.html,*.css
     \ set tabstop=2 |
     \ set softtabstop=2 |
     \ set shiftwidth=2
