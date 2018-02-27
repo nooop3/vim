@@ -36,23 +36,20 @@ Plugin 'morhetz/gruvbox'
 " 经典配色方案
 Plugin 'altercation/vim-colors-solarized'
 
+" Airline状态栏增强插件
+Plugin 'bling/vim-airline'
+
 " 中文帮助
 Plugin 'asins/vimcdoc'
 
-" 模拟黑客帝国
-Plugin 'matrix.vim--Yang'
-
-" Airline状态栏增强插件
-Plugin 'bling/vim-airline'
+" 快速搜索
+Plugin 'ctrlpvim/ctrlp.vim'
 
 " 文件浏览器
 Plugin 'scrooloose/nerdtree'
 
-" 代码注释快捷键
-Plugin 'scrooloose/nerdcommenter'
-
-" 前端快捷补齐
-Plugin 'mattn/emmet-vim'
+" Simple fold
+Plugin 'tmhedberg/SimpylFold'
 
 " 代码补全
 " Plugin 'Shougo/neocomplcache.vim'
@@ -61,23 +58,23 @@ Plugin 'Shougo/neocomplete.vim'
 " 括号自动匹配
 Plugin 'jiangmiao/auto-pairs'
 
+" 代码注释快捷键
+Plugin 'scrooloose/nerdcommenter'
+
+" Syntax checking
+" Plugin 'vim-scripts/syntastic'
+
 " 批量选取
 " Plugin 'terryma/vim-multiple-cursors'
 
-" 快速搜索
-Plugin 'ctrlpvim/ctrlp.vim'
-
-" php-cs-fixer
-" Plugin 'stephpy/vim-php-cs-fixer'
-
-" Simple fold
-Plugin 'tmhedberg/SimpylFold'
+" 前端快捷补齐
+Plugin 'mattn/emmet-vim'
 
 " python indent
 Plugin 'vim-scripts/indentpython.vim'
 
-" Syntax checking
-Plugin 'vim-scripts/syntastic'
+" php-cs-fixer
+" Plugin 'stephpy/vim-php-cs-fixer'
 
 " vim-go
 Plugin 'fatih/vim-go'
@@ -88,8 +85,14 @@ Plugin 'python-mode/python-mode'
 " vim-javascript
 Plugin 'pangloss/vim-javascript'
 
+" typescript vim
+Plugin 'leafgarland/typescript-vim'
+
 " novim-mode
 " Plugin 'tombh/novim-mode'
+
+" 模拟黑客帝国
+Plugin 'matrix.vim--Yang'
 
 " vim game code break
 Plugin 'johngrib/vim-game-code-break'
@@ -142,9 +145,6 @@ else
     colorscheme gruvbox
 endif
 
-" 中文帮助
-set helplang=cn "使用中文帮助
-
 " Airline
 set t_Co=256      " 指定配色方案为256色
 set laststatus=2
@@ -159,6 +159,20 @@ let g:airline#extensions#tabline#left_alt_sep = '|'
 " tabline中buffer显示编号
 let g:airline#extensions#tabline#buffer_nr_show = 1
 
+" 中文帮助
+set helplang=cn "使用中文帮助
+
+" ctrlp
+let g:ctrp_show_hidden = 1
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip     " MacOSX/Linux
+" set wildignore+=*\\tmp\\*,*.swp,*.zip,*.exe  " Windows
+
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\v[\/](node_modules|target|dist)|(\.(swp|ico|git|svn))$',
+  \ 'file': '\v\.(exe|so|dll)$',
+  \ 'link': 'some_bad_symbolic_links',
+  \ }
+
 " NERDTree
 " open a NERDTree aotomatically
 " autocmd vimenter * NERDTree
@@ -170,15 +184,8 @@ autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 " close vim if the only window left open is a NERDTree
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 
-" NERDCommenter
-let g:NERDSpaceDelims=1
-let g:NERDCompactSextComs=1
-let g:NERDTrimTrailingWhitespace=1
-
-" Emmet
-" 设置快捷键为<tab>
-let g:user_emmet_expandabbr_key = '<C-d>'
-" let g:user_emmet_expandabbr_key = '<Tab>'
+" SimpylFold
+let g:SimpylFold_docstring_preview=1
 
 " neocomplete
 " let g:neocomplcache_enable_at_startup=1
@@ -189,22 +196,29 @@ let g:neocomplete#enable_smart_case=1
 let g:neocomplete#enable_auto_select=1
 au FileType python  setlocal omnifunc=python3complete#Complete
 
-" SimpylFold
-let g:SimpylFold_docstring_preview=1
+" NERDCommenter
+let g:NERDSpaceDelims=1
+let g:NERDCompactSextComs=1
+let g:NERDTrimTrailingWhitespace=1
 
 " syntastic
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
+" set statusline+=%#warningmsg#
+" set statusline+=%{SyntasticStatuslineFlag()}
+" set statusline+=%*
 
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-let g:syntastic_mode_map = {
-  \ "mode": "active",
-  \ "active_filetypes": ["php"],
-  \ "passive_filetypes": ['python', 'go'] }
+" let g:syntastic_always_populate_loc_list = 1
+" let g:syntastic_auto_loc_list = 1
+" let g:syntastic_check_on_open = 1
+" let g:syntastic_check_on_wq = 0
+" let g:syntastic_mode_map = {
+  " \ "mode": "active",
+  " \ "active_filetypes": ["php"],
+  " \ "passive_filetypes": ['python', 'go'] }
+
+" Emmet
+" 设置快捷键为<tab>
+let g:user_emmet_expandabbr_key = '<C-d>'
+" let g:user_emmet_expandabbr_key = '<Tab>'
 
 " vim-go
 au FileType go nmap <leader>g  :<C-u>w !go run %<cr>
@@ -242,17 +256,6 @@ let g:javascript_plugin_jsdoc = 1
 let g:javascript_plugin_ngdoc = 1
 " Enables syntax highlight for Flow
 let g:javascript_plugin_flow = 1
-
-" ctrlp
-let g:ctrp_show_hidden = 1
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip     " MacOSX/Linux
-" set wildignore+=*\\tmp\\*,*.swp,*.zip,*.exe  " Windows
-
-let g:ctrlp_custom_ignore = {
-  \ 'dir':  '\v[\/](node_modules|target|dist)|(\.(swp|ico|git|svn))$',
-  \ 'file': '\v\.(exe|so|dll)$',
-  \ 'link': 'some_bad_symbolic_links',
-  \ }
 
 
 """""""""""""""""""""""""""
