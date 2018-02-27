@@ -192,9 +192,14 @@ let g:SimpylFold_docstring_preview=1
 let g:neocomplete#enable_at_startup=1
 " Use smartcase
 let g:neocomplete#enable_smart_case=1
-" Enable auto select
-let g:neocomplete#enable_auto_select=1
-au FileType python  setlocal omnifunc=python3complete#Complete
+" Set minimum syntax keyword length.
+let g:neocomplete#sources#syntax#min_keyword_length = 3
+" Enable omni completion.
+autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType python setlocal omnifunc=python3complete#Complete
+autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 
 " NERDCommenter
 let g:NERDSpaceDelims=1
@@ -256,6 +261,9 @@ let g:javascript_plugin_jsdoc = 1
 let g:javascript_plugin_ngdoc = 1
 " Enables syntax highlight for Flow
 let g:javascript_plugin_flow = 1
+
+" typescript vim
+" let g:typescript_indent_disable = 1
 
 
 """""""""""""""""""""""""""
