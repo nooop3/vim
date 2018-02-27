@@ -1,10 +1,10 @@
 " ======================================
 "    FileName: .vimrc
 "    Author:   Edward Green
-"    Version:  1.0.6
+"    Version:  1.1.0
 "    Email:    zhendongguan@gmail.com
 "    Blog: https://uare.github.io
-"    Date: 2017-11-03
+"    Date: 2018-02-27
 " =======================================
 
 
