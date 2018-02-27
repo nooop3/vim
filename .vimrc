@@ -91,6 +91,9 @@ Plugin 'pangloss/vim-javascript'
 " novim-mode
 " Plugin 'tombh/novim-mode'
 
+" vim game code break
+Plugin 'johngrib/vim-game-code-break'
+
 " The following are examples of different formats supported.
 " Keep Plugin commands between vundle#begin/end.
 " plugin on GitHub repo
@@ -215,10 +218,16 @@ let g:go_highlight_build_constraints = 1
 " python-mode
 let g:pymode_python = 'python3'
 let g:pymode_rope = 0
+let g:pymode_folding = 0
 " Check code on every save (every)
-" let g:pymode_lint_unmodified = 1
+let g:pymode_lint_unmodified = 1
+let g:pymode_options_max_line_length = 120
+let g:pymode_lint_options_pep8 = 
+    \ {'ignore': '',
+    \ 'max_line_length': g:pymode_options_max_line_length}
+let g:pymode_lint_options_mccabe = { 'complexity': 50 }
 " skip tab warnings
-let g:pymode_lint_ignore = "E501,C901"
+" let g:pymode_lint_ignore = "E501,C901"
 " let g:pymode_lint_ignore = "E501"
 " let g:pymode_lint_ignore = "E191"
 " let g:pymode_lint_ignore = "C901"
@@ -235,6 +244,7 @@ let g:javascript_plugin_ngdoc = 1
 let g:javascript_plugin_flow = 1
 
 " ctrlp
+let g:ctrp_show_hidden = 1
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip     " MacOSX/Linux
 " set wildignore+=*\\tmp\\*,*.swp,*.zip,*.exe  " Windows
 
