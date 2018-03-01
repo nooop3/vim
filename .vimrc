@@ -22,10 +22,13 @@ set nocompatible  " 取消兼容
 filetype off      " Bundle required
 
 " set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
+" mkdir -p $(HOME)/.vim
+" cd $(HOME)/.vim
+" git clone https://github.com/VundleVim/Vundle.vim
+set rtp+=~/.vim/Vundle.vim
 " call vundle#begin()
 " alternatively, pass a path where Vundle should install plugins
-call vundle#begin('~/.vim/bundle/plugin')
+call vundle#begin('~/.vim/plugins')
 
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
