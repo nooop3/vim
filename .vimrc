@@ -211,6 +211,7 @@ let g:NERDTrimTrailingWhitespace=1
 
 " ale
 let g:ale_linters = {
+\   'java': ['javac'],
 \   'javascript': ['eslint'],
 \   'python': ['flake8']
 \}
@@ -367,8 +368,21 @@ if exists('$TMUX')
     let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
     let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
 else
-    let &t_SI = "\<Esc>]50;CursorShape=1\x7"
-    let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+    if has('macunix')
+        let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+        let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+    else
+        if has("autocmd")
+          au VimEnter,InsertLeave * silent execute '!echo -ne "\e[1 q"' | redraw!
+          au InsertEnter,InsertChange *
+            \ if v:insertmode == 'i' | 
+            \   silent execute '!echo -ne "\e[5 q"' | redraw! |
+            \ elseif v:insertmode == 'r' |
+            \   silent execute '!echo -ne "\e[3 q"' | redraw! |
+            \ endif
+          au VimLeave * silent execute '!echo -ne "\e[ q"' | redraw!
+        endif
+    end
 endif
 
 set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ 14
