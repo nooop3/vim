@@ -1,10 +1,10 @@
 " ======================================
 "    FileName: .vimrc
 "    Author:   Edward Green
-"    Version:  1.0.6
+"    Version:  1.1.0
 "    Email:    zhendongguan@gmail.com
 "    Blog: https://uare.github.io
-"    Date: 2017-11-03
+"    Date: 2018-02-27
 " =======================================
 
 
@@ -39,23 +39,20 @@ Plugin 'morhetz/gruvbox'
 " 经典配色方案
 Plugin 'altercation/vim-colors-solarized'
 
+" Airline状态栏增强插件
+Plugin 'bling/vim-airline'
+
 " 中文帮助
 Plugin 'asins/vimcdoc'
 
-" 模拟黑客帝国
-Plugin 'matrix.vim--Yang'
-
-" Airline状态栏增强插件
-Plugin 'bling/vim-airline'
+" 快速搜索
+Plugin 'ctrlpvim/ctrlp.vim'
 
 " 文件浏览器
 Plugin 'scrooloose/nerdtree'
 
-" 代码注释快捷键
-Plugin 'scrooloose/nerdcommenter'
-
-" 前端快捷补齐
-Plugin 'mattn/emmet-vim'
+" Simple fold
+Plugin 'tmhedberg/SimpylFold'
 
 " 代码补全
 " Plugin 'Shougo/neocomplcache.vim'
@@ -64,23 +61,23 @@ Plugin 'Shougo/neocomplete.vim'
 " 括号自动匹配
 Plugin 'jiangmiao/auto-pairs'
 
+" 代码注释快捷键
+Plugin 'scrooloose/nerdcommenter'
+
+" Syntax checking
+Plugin 'w0rp/ale'
+
 " 批量选取
 " Plugin 'terryma/vim-multiple-cursors'
 
-" 快速搜索
-Plugin 'ctrlpvim/ctrlp.vim'
-
-" php-cs-fixer
-" Plugin 'stephpy/vim-php-cs-fixer'
-
-" Simple fold
-Plugin 'tmhedberg/SimpylFold'
+" 前端快捷补齐
+Plugin 'mattn/emmet-vim'
 
 " python indent
 Plugin 'vim-scripts/indentpython.vim'
 
-" Syntax checking
-Plugin 'vim-scripts/syntastic'
+" php-cs-fixer
+" Plugin 'stephpy/vim-php-cs-fixer'
 
 " vim-go
 Plugin 'fatih/vim-go'
@@ -91,8 +88,17 @@ Plugin 'python-mode/python-mode'
 " vim-javascript
 Plugin 'pangloss/vim-javascript'
 
+" typescript vim
+Plugin 'leafgarland/typescript-vim'
+
 " novim-mode
 " Plugin 'tombh/novim-mode'
+
+" 模拟黑客帝国
+Plugin 'matrix.vim--Yang'
+
+" vim game code break
+Plugin 'johngrib/vim-game-code-break'
 
 " The following are examples of different formats supported.
 " Keep Plugin commands between vundle#begin/end.
@@ -142,9 +148,6 @@ else
     colorscheme gruvbox
 endif
 
-" 中文帮助
-set helplang=cn "使用中文帮助
-
 " Airline
 set t_Co=256      " 指定配色方案为256色
 set laststatus=2
@@ -159,6 +162,20 @@ let g:airline#extensions#tabline#left_alt_sep = '|'
 " tabline中buffer显示编号
 let g:airline#extensions#tabline#buffer_nr_show = 1
 
+" 中文帮助
+set helplang=cn "使用中文帮助
+
+" ctrlp
+let g:ctrp_show_hidden = 1
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip     " MacOSX/Linux
+" set wildignore+=*\\tmp\\*,*.swp,*.zip,*.exe  " Windows
+
+let g:ctrlp_custom_ignore = {
+    \ 'dir':  '\v[\/](node_modules|target|dist)|(\.(swp|ico|git|svn))$',
+    \ 'file': '\v\.(exe|so|dll)$',
+    \ 'link': 'some_bad_symbolic_links',
+    \ }
+
 " NERDTree
 " open a NERDTree aotomatically
 " autocmd vimenter * NERDTree
@@ -170,41 +187,41 @@ autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 " close vim if the only window left open is a NERDTree
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 
-" NERDCommenter
-let g:NERDSpaceDelims=1
-let g:NERDCompactSextComs=1
-let g:NERDTrimTrailingWhitespace=1
-
-" Emmet
-" 设置快捷键为<tab>
-let g:user_emmet_expandabbr_key = '<C-d>'
-" let g:user_emmet_expandabbr_key = '<Tab>'
+" SimpylFold
+let g:SimpylFold_docstring_preview=1
 
 " neocomplete
 " let g:neocomplcache_enable_at_startup=1
 let g:neocomplete#enable_at_startup=1
 " Use smartcase
 let g:neocomplete#enable_smart_case=1
-" Enable auto select
-let g:neocomplete#enable_auto_select=1
-au FileType python  setlocal omnifunc=python3complete#Complete
+" Set minimum syntax keyword length.
+let g:neocomplete#sources#syntax#min_keyword_length = 3
+" Enable omni completion.
+autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType python setlocal omnifunc=python3complete#Complete
+autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 
-" SimpylFold
-let g:SimpylFold_docstring_preview=1
+" NERDCommenter
+let g:NERDSpaceDelims=1
+let g:NERDCompactSextComs=1
+let g:NERDTrimTrailingWhitespace=1
 
-" syntastic
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
+" ale
+let g:ale_linters = {
+\   'javascript': ['eslint'],
+\   'python': ['flake8']
+\}
+let g:ale_javascript_eslint_use_global = 1
+" Set this. Airline will handle the rest.
+let g:airline#extensions#ale#enabled = 1
 
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-let g:syntastic_mode_map = {
-  \ "mode": "active",
-  \ "active_filetypes": ["php"],
-  \ "passive_filetypes": ['python', 'go'] }
+" Emmet
+" 设置快捷键为<tab>
+let g:user_emmet_expandabbr_key = '<C-d>'
+" let g:user_emmet_expandabbr_key = '<Tab>'
 
 " vim-go
 au FileType go nmap <leader>g  :<C-u>w !go run %<cr>
@@ -218,10 +235,16 @@ let g:go_highlight_build_constraints = 1
 " python-mode
 let g:pymode_python = 'python3'
 let g:pymode_rope = 0
+let g:pymode_folding = 0
 " Check code on every save (every)
-" let g:pymode_lint_unmodified = 1
+let g:pymode_lint_unmodified = 1
+let g:pymode_options_max_line_length = 120
+let g:pymode_lint_options_pep8 = 
+    \ {'ignore': '',
+       \ 'max_line_length': g:pymode_options_max_line_length}
+let g:pymode_lint_options_mccabe = { 'complexity': 50 }
 " skip tab warnings
-let g:pymode_lint_ignore = "E501,C901"
+" let g:pymode_lint_ignore = "E501,C901"
 " let g:pymode_lint_ignore = "E501"
 " let g:pymode_lint_ignore = "E191"
 " let g:pymode_lint_ignore = "C901"
@@ -237,16 +260,8 @@ let g:javascript_plugin_ngdoc = 1
 " Enables syntax highlight for Flow
 let g:javascript_plugin_flow = 1
 
-" ctrlp
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip     " MacOSX/Linux
-" set wildignore+=*\\tmp\\*,*.swp,*.zip,*.exe  " Windows
-
-let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
-let g:ctrlp_custom_ignore = {
-  \ 'dir':  '\v[\/]\.(git|hg|svn)$',
-  \ 'file': '\v\.(exe|so|dll)$',
-  \ 'link': 'some_bad_symbolic_links',
-  \ }
+" typescript vim
+" let g:typescript_indent_disable = 1
 
 
 """""""""""""""""""""""""""
@@ -265,7 +280,7 @@ map <leader>w :w!<CR>
 map <silent> <leader><CR> :set nohlsearch<CR>
 " have Vim jump to the last position when reopening a file
 if has("autocmd")
-  au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+    au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 endif
 
 " 映射切换buffer的键位
@@ -349,31 +364,26 @@ set fileformats=unix
 
 " Swap iTerm2 cursors in vim insert mode when using tmux
 if exists('$TMUX')
-  let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
-  let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+    let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
+    let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
 else
-  let &t_SI = "\<Esc>]50;CursorShape=1\x7"
-  let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+    let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+    let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 endif
 
 set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ 14
 if has('mouse')
-	set mouse=a
+    set mouse=a
 endif
 " Allow saving of files as sudo when I forgot to start vim using sudo.
 cmap w!! w !sudo tee > /dev/null %
 
 " Delete trailing white space on save, useful for Python and CoffeeScript ;)
 func! DeleteTrailingWS()
-  exe "normal mz"
-  %s/\s\+$//ge
-  exe "normal `z"
+    exe "normal mz"
+    %s/\s\+$//ge
+    exe "normal `z"
 endfunc
-
-autocmd BufNewFile,BufRead *.js, *.html, *.css
-    \ set tabstop=2
-    \ set softtabstop=2
-    \ set shiftwidth=2
 
 " Indent Python in the Google way.
 
@@ -382,34 +392,36 @@ setlocal indentexpr=GetGooglePythonIndent(v:lnum)
 let s:maxoff = 50 " maximum number of lines to look backwards.
 
 function! GetGooglePythonIndent(lnum)
-
-  " Indent inside parens.
-  " Align with the open paren unless it is at the end of the line.
-  " E.g.
-  "   open_paren_not_at_EOL(100,
-  "                         (200,
-  "                          300),
-  "                         400)
-  "   open_paren_at_EOL(
-  "       100, 200, 300, 400)
-  call cursor(a:lnum, 1)
-  let [par_line, par_col] = searchpairpos('(\|{\|\[', '', ')\|}\|\]', 'bW',
-        \ "line('.') < " . (a:lnum - s:maxoff) . " ? dummy :"
-        \ . " synIDattr(synID(line('.'), col('.'), 1), 'name')"
-        \ . " =~ '\\(Comment\\|String\\)$'")
-  if par_line > 0
-    call cursor(par_line, 1)
-    if par_col != col("$") - 1
-      return par_col
+    " Indent inside parens.
+    " Align with the open paren unless it is at the end of the line.
+    " E.g.
+    "   open_paren_not_at_EOL(100,
+    "                         (200,
+    "                          300),
+    "                         400)
+    "   open_paren_at_EOL(
+    "       100, 200, 300, 400)
+    call cursor(a:lnum, 1)
+    let [par_line, par_col] = searchpairpos('(\|{\|\[', '', ')\|}\|\]', 'bW',
+                                            \ "line('.') < " . (a:lnum - s:maxoff) . " ? dummy :"
+                                            \ . " synIDattr(synID(line('.'), col('.'), 1), 'name')"
+                                            \ . " =~ '\\(Comment\\|String\\)$'")
+    if par_line > 0
+        call cursor(par_line, 1)
+        if par_col != col("$") - 1
+            return par_col
+        endif
     endif
-  endif
-
-  " Delegate the rest to the original function.
-  return GetPythonIndent(a:lnum)
-
+    " Delegate the rest to the original function.
+    return GetPythonIndent(a:lnum)
 endfunction
 
 let pyindent_nested_paren="&sw*2"
 let pyindent_open_paren="&sw*2"
 
 autocmd BufWrite *.py,*.pyw,*.c,*.h,*.coffee :call DeleteTrailingWS()
+
+autocmd BufNewFile,BufRead *.js,*.ts,*tsx,*.html,*.css
+    \ set tabstop=2 |
+    \ set softtabstop=2 |
+    \ set shiftwidth=2
