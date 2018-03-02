@@ -22,10 +22,13 @@ set nocompatible  " 取消兼容
 filetype off      " Bundle required
 
 " set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
+" mkdir -p $(HOME)/.vim
+" cd $(HOME)/.vim
+" git clone https://github.com/VundleVim/Vundle.vim
+set rtp+=~/.vim/Vundle.vim
 " call vundle#begin()
 " alternatively, pass a path where Vundle should install plugins
-call vundle#begin('~/.vim/bundle/plugin')
+call vundle#begin('~/.vim/plugins')
 
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
@@ -211,6 +214,7 @@ let g:NERDTrimTrailingWhitespace=1
 
 " ale
 let g:ale_linters = {
+\   'java': ['javac'],
 \   'javascript': ['eslint'],
 \   'python': ['flake8']
 \}
@@ -393,8 +397,21 @@ if exists('$TMUX')
     let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
     let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
 else
-    let &t_SI = "\<Esc>]50;CursorShape=1\x7"
-    let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+    if has('macunix')
+        let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+        let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+    else
+        if has("autocmd")
+          au VimEnter,InsertLeave * silent execute '!echo -ne "\e[1 q"' | redraw!
+          au InsertEnter,InsertChange *
+            \ if v:insertmode == 'i' | 
+            \   silent execute '!echo -ne "\e[5 q"' | redraw! |
+            \ elseif v:insertmode == 'r' |
+            \   silent execute '!echo -ne "\e[3 q"' | redraw! |
+            \ endif
+          au VimLeave * silent execute '!echo -ne "\e[ q"' | redraw!
+        endif
+    end
 endif
 
 set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ 14
