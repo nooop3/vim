@@ -88,6 +88,9 @@ Plugin 'pangloss/vim-javascript'
 " typescript vim
 Plugin 'leafgarland/typescript-vim'
 
+" vim java complete
+Plugin 'artur-shaik/vim-javacomplete2'
+
 " novim-mode
 " Plugin 'tombh/novim-mode'
 
@@ -259,6 +262,32 @@ let g:javascript_plugin_flow = 1
 
 " typescript vim
 " let g:typescript_indent_disable = 1
+
+" vim java complete
+" java compile
+map <F2> :call CompileJava()<CR>
+func! CompileJava()
+    :w
+    :!javac "%"
+endfunc
+" run class
+map <F3> :call RunClass()<CR>
+func! RunClass()
+    :!java -cp "%:p:h" "%:t:r"
+endfunc
+autocmd FileType java setlocal omnifunc=javacomplete#Complete
+" enable smart (trying to guess import option) inserting class imports with F4
+nmap <F4> <Plug>(JavaComplete-Imports-AddSmart)
+imap <F4> <Plug>(JavaComplete-Imports-AddSmart)
+" enable usual (will ask for import option) inserting class imports with F5
+nmap <F5> <Plug>(JavaComplete-Imports-Add)
+imap <F5> <Plug>(JavaComplete-Imports-Add)
+" add all missing imports with F6
+nmap <F6> <Plug>(JavaComplete-Imports-AddMissing)
+imap <F6> <Plug>(JavaComplete-Imports-AddMissing)
+" remove all unused imports with F7
+nmap <F7> <Plug>(JavaComplete-Imports-RemoveUnused)
+imap <F7> <Plug>(JavaComplete-Imports-RemoveUnused)
 
 
 """""""""""""""""""""""""""
