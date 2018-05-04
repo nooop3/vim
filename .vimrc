@@ -4,7 +4,7 @@
 "    Version:  1.1.0
 "    Email:    zhendongguan@gmail.com
 "    Blog: https://uare.github.io
-"    Date: 2018-02-27
+"    Date: 2018-05-04
 " =======================================
 
 
@@ -93,6 +93,9 @@ Plugin 'leafgarland/typescript-vim'
 
 " vim java complete
 Plugin 'artur-shaik/vim-javacomplete2'
+
+" vim solidity
+Plugin 'tomlion/vim-solidity'
 
 " novim-mode
 " Plugin 'tombh/novim-mode'
@@ -216,7 +219,8 @@ let g:NERDTrimTrailingWhitespace=1
 let g:ale_linters = {
 \   'java': ['javac'],
 \   'javascript': ['eslint'],
-\   'python': ['flake8']
+\   'python': ['flake8'],
+\   'solidity': ['solium']
 \}
 let g:ale_javascript_eslint_use_global = 1
 " Set this. Airline will handle the rest.
