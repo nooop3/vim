@@ -1,10 +1,10 @@
 " ======================================
 "    FileName: .vimrc
 "    Author:   Edward Green
-"    Version:  1.1.0
+"    Version:  1.2.0
 "    Email:    zhendongguan@gmail.com
 "    Blog: https://uare.github.io
-"    Date: 2018-05-04
+"    Date: 2018-07-06
 " =======================================
 
 
@@ -13,6 +13,8 @@ let mapleader = ";"
 let g:mapleader = ";"
 
 
+" add fzf support
+set rtp+=/usr/local/opt/fzf
 """""""""""""""""""""""""""
 " Bundle Plugin List
 """""""""""""""""""""""""""
@@ -73,14 +75,11 @@ Plugin 'w0rp/ale'
 " 前端快捷补齐
 Plugin 'mattn/emmet-vim'
 
-" python indent
-Plugin 'vim-scripts/indentpython.vim'
+" vim-go
+Plugin 'fatih/vim-go'
 
 " php-cs-fixer
 " Plugin 'stephpy/vim-php-cs-fixer'
-
-" vim-go
-Plugin 'fatih/vim-go'
 
 " python mode
 Plugin 'python-mode/python-mode'
@@ -102,9 +101,6 @@ Plugin 'tomlion/vim-solidity'
 
 " 模拟黑客帝国
 Plugin 'matrix.vim--Yang'
-
-" vim game code break
-Plugin 'johngrib/vim-game-code-break'
 
 " The following are examples of different formats supported.
 " Keep Plugin commands between vundle#begin/end.
@@ -172,9 +168,9 @@ let g:airline#extensions#tabline#buffer_nr_show = 1
 set helplang=cn "使用中文帮助
 
 " ctrlp
-let g:ctrp_show_hidden = 1
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip     " MacOSX/Linux
 " set wildignore+=*\\tmp\\*,*.swp,*.zip,*.exe  " Windows
+let g:ctrp_show_hidden = 1
 
 let g:ctrlp_custom_ignore = {
     \ 'dir':  '\v[\/](node_modules|target|dist)|(\.(swp|ico|git|svn))$',
@@ -220,7 +216,8 @@ let g:ale_linters = {
 \   'java': ['javac'],
 \   'javascript': ['eslint'],
 \   'python': ['flake8'],
-\   'solidity': ['solium']
+\   'solidity': ['solium'],
+\   'proto': ['protoc-gen-lint']
 \}
 let g:ale_javascript_eslint_use_global = 1
 " Set this. Airline will handle the rest.
@@ -425,19 +422,6 @@ endif
 " Allow saving of files as sudo when I forgot to start vim using sudo.
 cmap w!! w !sudo tee > /dev/null %
 
-" Delete trailing white space on save, useful for Python and CoffeeScript ;)
-func! DeleteTrailingWS()
-    exe "normal mz"
-    %s/\s\+$//ge
-    exe "normal `z"
-endfunc
-
-" Indent Python in the Google way.
-
-setlocal indentexpr=GetGooglePythonIndent(v:lnum)
-
-let s:maxoff = 50 " maximum number of lines to look backwards.
-
 function! GetGooglePythonIndent(lnum)
     " Indent inside parens.
     " Align with the open paren unless it is at the end of the line.
@@ -463,12 +447,23 @@ function! GetGooglePythonIndent(lnum)
     return GetPythonIndent(a:lnum)
 endfunction
 
-let pyindent_nested_paren="&sw*2"
-let pyindent_open_paren="&sw*2"
+" Indent Python in the Google way.
+autocmd Filetype python setlocal indentexpr=GetGooglePythonIndent(v:lnum)
 
-autocmd BufWrite *.py,*.pyw,*.c,*.h,*.coffee :call DeleteTrailingWS()
+" Delete trailing white space on save, useful for Python and CoffeeScript ;)
+func! DeleteTrailingWS()
+    exe "normal mz"
+    %s/\s\+$//ge
+    exe "normal `z"
+endfunc
 
-autocmd BufNewFile,BufRead *.js,*.ts,*tsx,*.html,*.css
+autocmd BufNewFile,BufRead *.js,*.json,*.ts,*tsx,*.html,*.css,*.yml
     \ set tabstop=2 |
     \ set softtabstop=2 |
     \ set shiftwidth=2
+autocmd BufNewFile,BufRead *.md
+    \ set tabstop=4 |
+    \ set softtabstop=4 |
+    \ set shiftwidth=4
+
+autocmd BufWrite *.py,*.pyw,*.c,*.h,*.coffee :call DeleteTrailingWS()
