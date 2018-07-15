@@ -1,140 +1,127 @@
 " ======================================
 "    FileName: .vimrc
 "    Author:   Edward Green
-"    Version:  1.2.0
+"    Version:  1.3.0
 "    Email:    zhendongguan@gmail.com
 "    Blog: https://uare.github.io
-"    Date: 2018-07-06
+"    Date: 2018-07-15
 " =======================================
 
 
+" vim issue: https://github.com/vim/vim/issues/3117
+if has('python3')
+  silent! python3 1
+endif
+
 " Set mapleader
-let mapleader = ";"
-let g:mapleader = ";"
+let mapleader = ';'
+let g:mapleader = ';'
+
+if !exists('g:os')
+  if has('win64') || has('win32') || has('win16')
+    let g:os = 'Windows'
+  else
+    let g:os = substitute(system('uname'), '\n', '', '')
+  endif
+endif
+
+if g:os == 'Windows'
+  " Windows (PowerShell)
+  md ~\vimfiles\autoload
+  $uri = 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+  (New-Object Net.WebClient).DownloadFile(
+    $uri,
+    $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath(
+      '~\vimfiles\autoload\plug.vim'
+    )
+  )
+  set wildignore+=*\\tmp\\*,*.swp,*.zip,*.exe
+else
+  " Unix (MacOs, Linux)
+  if empty(glob('~/.vim/autoload/plug.vim'))
+    silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+      \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+  endif
+  " add fzf support
+  if has('Mac')
+    set rtp+=/usr/local/opt/fzf
+  endif
+  set wildignore+=*/tmp/*,*.so,*.swp,*.zip
+endif
+
+function! Cond(cond, ...)
+  let opts = get(a:000, 0, {})
+  return a:cond ? opts : extend(opts, { 'on': [], 'for': [] })
+endfunction
 
 
-" add fzf support
-set rtp+=/usr/local/opt/fzf
 """""""""""""""""""""""""""
-" Bundle Plugin List
+" vim-plug list
 """""""""""""""""""""""""""
 
-" Bundle start
-set nocompatible  " 取消兼容
-filetype off      " Bundle required
+" Specify a directory for plugins
+" - Avoid using standard Vim directory names like 'plugin'
+call plug#begin('~/.vim/plugged')
 
-" set the runtime path to include Vundle and initialize
-" mkdir -p $(HOME)/.vim
-" cd $(HOME)/.vim
-" git clone https://github.com/VundleVim/Vundle.vim
-set rtp+=~/.vim/Vundle.vim
-" call vundle#begin()
-" alternatively, pass a path where Vundle should install plugins
-call vundle#begin('~/.vim/plugins')
-
-" let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
+" Vim-plug help doc
+Plug 'junegunn/vim-plug'
 
 " Color Schemes
-Plugin 'morhetz/gruvbox'
+Plug 'morhetz/gruvbox'
 
-" 经典配色方案
-Plugin 'altercation/vim-colors-solarized'
+" solarized color theme
+" Plug 'altercation/vim-colors-solarized'
 
-" Airline状态栏增强插件
-Plugin 'bling/vim-airline'
+" Airline status line
+Plug 'bling/vim-airline'
 
-" 中文帮助
-Plugin 'asins/vimcdoc'
+" Chinese help docs
+Plug 'asins/vimcdoc'
 
-" 快速搜索
-Plugin 'ctrlpvim/ctrlp.vim'
+" Search files
+Plug 'ctrlpvim/ctrlp.vim'
 
-" 文件浏览器
-Plugin 'scrooloose/nerdtree'
+" Files browser
+Plug 'scrooloose/nerdtree'
 
 " Simple fold
-Plugin 'tmhedberg/SimpylFold'
+Plug 'tmhedberg/SimpylFold'
 
-" 代码补全
-" Plugin 'Shougo/neocomplcache.vim'
-Plugin 'Shougo/neocomplete.vim'
+" Python3 neovim client: pip3 install neovim
+Plug 'Shougo/deoplete.nvim'
+Plug 'roxma/nvim-yarp'
+Plug 'roxma/vim-hug-neovim-rpc'
+" Plug 'mhartington/nvim-typescript'
 
-" 括号自动匹配
-Plugin 'jiangmiao/auto-pairs'
+Plug 'jiangmiao/auto-pairs'
 
-" 代码注释快捷键
-Plugin 'scrooloose/nerdcommenter'
+Plug 'scrooloose/nerdcommenter'
 
 " Syntax checking
-Plugin 'w0rp/ale'
+Plug 'w0rp/ale'
 
-" 批量选取
-" Plugin 'terryma/vim-multiple-cursors'
+Plug 'mattn/emmet-vim'
 
-" 前端快捷补齐
-Plugin 'mattn/emmet-vim'
-
-" vim-go
-Plugin 'fatih/vim-go'
+Plug 'fatih/vim-go'
 
 " php-cs-fixer
-" Plugin 'stephpy/vim-php-cs-fixer'
+" Plug 'stephpy/vim-php-cs-fixer'
 
-" python mode
-Plugin 'python-mode/python-mode'
+Plug 'python-mode/python-mode'
 
-" vim-javascript
-Plugin 'pangloss/vim-javascript'
+Plug 'pangloss/vim-javascript'
 
-" typescript vim
-Plugin 'leafgarland/typescript-vim'
+Plug 'leafgarland/typescript-vim'
 
-" vim java complete
-Plugin 'artur-shaik/vim-javacomplete2'
+Plug 'artur-shaik/vim-javacomplete2'
 
-" vim solidity
-Plugin 'tomlion/vim-solidity'
+Plug 'tomlion/vim-solidity'
 
-" novim-mode
-" Plugin 'tombh/novim-mode'
+" Martix
+Plug 'vim-scripts/matrix.vim--Yang'
 
-" 模拟黑客帝国
-Plugin 'matrix.vim--Yang'
-
-" The following are examples of different formats supported.
-" Keep Plugin commands between vundle#begin/end.
-" plugin on GitHub repo
-" Plugin 'tpope/vim-fugitive'
-" plugin from http://vim-scripts.org/vim/scripts.html
-" Plugin 'L9'
-" Git plugin not hosted on GitHub
-" Plugin 'git://git.wincent.com/command-t.git'
-" git repos on your local machine (i.e. when working on your own plugin)
-" Plugin 'file:///home/gmarik/path/to/plugin'
-" The sparkup vim script is in a subdirectory of this repo called vim.
-" Pass the path to set the runtimepath properly.
-" Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
-" Avoid a name conflict with L9
-" Plugin 'user/L9', {'name': 'newL9'}
-
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
-
-filetype plugin on
-filetype plugin indent on    " required
-
-" Brief help
-" :PluginList       - lists configured plugins
-" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
-" :PluginSearch foo - searches for foo; append `!` to refresh local cache
-" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
-"
-" see :h vundle for more details or wiki for FAQ
-" Put your non-Plugin stuff after this line
-
-" End Bundle
-
+call plug#end()
 
 """""""""""""""""""""""""""
 " Plugin Configure
@@ -144,34 +131,26 @@ filetype plugin indent on    " required
 set background=dark
 if has('gui_running')
     " let g:solarized_termcolors=256
-    " let g:solarized_termtrans=1
+    " let g:solarized_termtrans = 1
     colorscheme solarized
 else
     colorscheme gruvbox
 endif
 
 " Airline
-set t_Co=256      " 指定配色方案为256色
+set t_Co=256
 set laststatus=2
-" 使用powerline打过补丁的字体
-let g:airline_powerline_fonts=1
-" 开启tabline
+let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
-" tabline中当前buffer两端的分隔字符
 let g:airline#extensions#tabline#left_sep = ' '
-" tabline中未激活buffer两端的分隔字符
 let g:airline#extensions#tabline#left_alt_sep = '|'
-" tabline中buffer显示编号
 let g:airline#extensions#tabline#buffer_nr_show = 1
 
-" 中文帮助
-set helplang=cn "使用中文帮助
+" Use chinese help doc
+set helplang=cn
 
 " ctrlp
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip     " MacOSX/Linux
-" set wildignore+=*\\tmp\\*,*.swp,*.zip,*.exe  " Windows
 let g:ctrp_show_hidden = 1
-
 let g:ctrlp_custom_ignore = {
     \ 'dir':  '\v[\/](node_modules|target|dist)|(\.(swp|ico|git|svn))$',
     \ 'file': '\v\.(exe|so|dll)$',
@@ -184,37 +163,37 @@ let g:ctrlp_custom_ignore = {
 " open NERDTree with Ctrl-n
 map <C-n> :NERDTreeToggle<CR>
 " open a NERDTree automatically when vim starts up if no files were specified
-autocmd StdinReadPre * let s:std_in=1
+autocmd StdinReadPre * let s:std_in = 1
 autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 " close vim if the only window left open is a NERDTree
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 
 " SimpylFold
-let g:SimpylFold_docstring_preview=1
+let g:SimpylFold_docstring_preview = 1
 
-" neocomplete
-" let g:neocomplcache_enable_at_startup=1
-let g:neocomplete#enable_at_startup=1
+" deoplete
+let g:deoplete#enable_at_startup = 1
 " Use smartcase
-let g:neocomplete#enable_smart_case=1
+" let g:neocomplete#enable_smart_case = 1
 " Set minimum syntax keyword length.
-let g:neocomplete#sources#syntax#min_keyword_length = 3
+let g:deoplete#sources#syntax#min_keyword_length = 3
 " Enable omni completion.
-autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType python setlocal omnifunc=python3complete#Complete
-autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+" autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+" autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+" autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+" autocmd FileType python setlocal omnifunc=python3complete#Complete
+" autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 
 " NERDCommenter
-let g:NERDSpaceDelims=1
-let g:NERDCompactSextComs=1
-let g:NERDTrimTrailingWhitespace=1
+let g:NERDSpaceDelims = 1
+let g:NERDCompactSextComs = 1
+let g:NERDTrimTrailingWhitespace = 1
 
 " ale
 let g:ale_linters = {
 \   'java': ['javac'],
 \   'javascript': ['eslint'],
+\   'typescript': ['tslint'],
 \   'python': ['flake8'],
 \   'solidity': ['solium'],
 \   'proto': ['protoc-gen-lint']
@@ -224,7 +203,6 @@ let g:ale_javascript_eslint_use_global = 1
 let g:airline#extensions#ale#enabled = 1
 
 " Emmet
-" 设置快捷键为<tab>
 let g:user_emmet_expandabbr_key = '<C-d>'
 " let g:user_emmet_expandabbr_key = '<Tab>'
 
@@ -266,7 +244,7 @@ let g:javascript_plugin_ngdoc = 1
 let g:javascript_plugin_flow = 1
 
 " typescript vim
-" let g:typescript_indent_disable = 1
+let g:typescript_indent_disable = 1
 
 " vim java complete
 " java compile
@@ -314,10 +292,8 @@ if has("autocmd")
     au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 endif
 
-" 映射切换buffer的键位
 nnoremap [b :bp<CR>
 nnoremap ]b :bn<CR>
-" 映射<leader>num到num buffer
 map <leader>1 :b 1<CR>
 map <leader>2 :b 2<CR>
 map <leader>3 :b 3<CR>
@@ -327,8 +303,6 @@ map <leader>6 :b 6<CR>
 map <leader>7 :b 7<CR>
 map <leader>8 :b 8<CR>
 map <leader>9 :b 9<CR>
-
-syntax enable       " 开启代码高亮
 
 set number          " Show line number
 set ignorecase		" Do case insensitive matching
@@ -371,14 +345,11 @@ nnoremap <space> za
 set completeopt-=preview
 " disable perview
 set wildmenu
-" 在命令模式下使用 Tab 自动补全的时候，将补全内容使用一个漂亮的单行菜单形式显示出来。
 set whichwrap=b,<,>,[,],h,l
-" 允许光标跨行
 set backspace=indent,eol,start
 " Use Unix as the standard file type
 set pastetoggle=<F9>
-" 插入代码按下F9取消自动缩进
-set guioptions=   " 取消边框
+set guioptions=
 set fileencodings=utf-8
 set encoding=utf8   " Set utf8 as standard encoding and en_US as the standard language
 " allow backspacing over everything in insert mode
@@ -395,56 +366,56 @@ set fileformats=unix
 
 " Swap iTerm2 cursors in vim insert mode when using tmux
 if exists('$TMUX')
-    let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
-    let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+  let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
+  let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
 else
-    if has('macunix')
-        let &t_SI = "\<Esc>]50;CursorShape=1\x7"
-        let &t_EI = "\<Esc>]50;CursorShape=0\x7"
-    else
-        if has("autocmd")
-          au VimEnter,InsertLeave * silent execute '!echo -ne "\e[1 q"' | redraw!
-          au InsertEnter,InsertChange *
-            \ if v:insertmode == 'i' | 
-            \   silent execute '!echo -ne "\e[5 q"' | redraw! |
-            \ elseif v:insertmode == 'r' |
-            \   silent execute '!echo -ne "\e[3 q"' | redraw! |
-            \ endif
-          au VimLeave * silent execute '!echo -ne "\e[ q"' | redraw!
-        endif
-    end
+  if has('macunix')
+    let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+    let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+  else
+    if has("autocmd")
+      au VimEnter,InsertLeave * silent execute '!echo -ne "\e[1 q"' | redraw!
+      au InsertEnter,InsertChange *
+        \ if v:insertmode == 'i' | 
+        \   silent execute '!echo -ne "\e[5 q"' | redraw! |
+        \ elseif v:insertmode == 'r' |
+        \   silent execute '!echo -ne "\e[3 q"' | redraw! |
+        \ endif
+      au VimLeave * silent execute '!echo -ne "\e[ q"' | redraw!
+    endif
+  end
 endif
 
 set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ 14
 if has('mouse')
-    set mouse=a
+  set mouse=a
 endif
 " Allow saving of files as sudo when I forgot to start vim using sudo.
 cmap w!! w !sudo tee > /dev/null %
 
 function! GetGooglePythonIndent(lnum)
-    " Indent inside parens.
-    " Align with the open paren unless it is at the end of the line.
-    " E.g.
-    "   open_paren_not_at_EOL(100,
-    "                         (200,
-    "                          300),
-    "                         400)
-    "   open_paren_at_EOL(
-    "       100, 200, 300, 400)
-    call cursor(a:lnum, 1)
-    let [par_line, par_col] = searchpairpos('(\|{\|\[', '', ')\|}\|\]', 'bW',
-                                            \ "line('.') < " . (a:lnum - s:maxoff) . " ? dummy :"
-                                            \ . " synIDattr(synID(line('.'), col('.'), 1), 'name')"
-                                            \ . " =~ '\\(Comment\\|String\\)$'")
-    if par_line > 0
-        call cursor(par_line, 1)
-        if par_col != col("$") - 1
-            return par_col
-        endif
+  " Indent inside parens.
+  " Align with the open paren unless it is at the end of the line.
+  " E.g.
+  "   open_paren_not_at_EOL(100,
+  "                         (200,
+  "                          300),
+  "                         400)
+  "   open_paren_at_EOL(
+  "       100, 200, 300, 400)
+  call cursor(a:lnum, 1)
+  let [par_line, par_col] = searchpairpos('(\|{\|\[', '', ')\|}\|\]', 'bW',
+    \ "line('.') < " . (a:lnum - s:maxoff) . " ? dummy :"
+    \ . " synIDattr(synID(line('.'), col('.'), 1), 'name')"
+    \ . " =~ '\\(Comment\\|String\\)$'")
+  if par_line > 0
+    call cursor(par_line, 1)
+    if par_col != col("$") - 1
+      return par_col
     endif
-    " Delegate the rest to the original function.
-    return GetPythonIndent(a:lnum)
+  endif
+  " Delegate the rest to the original function.
+  return GetPythonIndent(a:lnum)
 endfunction
 
 " Indent Python in the Google way.
@@ -452,18 +423,17 @@ autocmd Filetype python setlocal indentexpr=GetGooglePythonIndent(v:lnum)
 
 " Delete trailing white space on save, useful for Python and CoffeeScript ;)
 func! DeleteTrailingWS()
-    exe "normal mz"
-    %s/\s\+$//ge
-    exe "normal `z"
+  exe "normal mz"
+  %s/\s\+$//ge
+  exe "normal `z"
 endfunc
-
-autocmd BufNewFile,BufRead *.js,*.json,*.ts,*tsx,*.html,*.css,*.yml
-    \ set tabstop=2 |
-    \ set softtabstop=2 |
-    \ set shiftwidth=2
-autocmd BufNewFile,BufRead *.md
-    \ set tabstop=4 |
-    \ set softtabstop=4 |
-    \ set shiftwidth=4
-
 autocmd BufWrite *.py,*.pyw,*.c,*.h,*.coffee :call DeleteTrailingWS()
+
+autocmd BufNewFile,BufRead *.js,*.json,*.ts,*tsx,*.html,*.css,*.yml,*.proto
+  \ set tabstop=2 |
+  \ set softtabstop=2 |
+  \ set shiftwidth=2
+autocmd BufNewFile,BufRead *.md
+  \ set tabstop=4 |
+  \ set softtabstop=4 |
+  \ set shiftwidth=4
