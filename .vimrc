@@ -7,12 +7,6 @@
 "    Date: 2018-07-15
 " =======================================
 
-
-" vim issue: https://github.com/vim/vim/issues/3117
-if has('python3')
-  silent! python3 1
-endif
-
 " Set mapleader
 let mapleader = ';'
 let g:mapleader = ';'
