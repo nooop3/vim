@@ -86,7 +86,10 @@ Plug 'tmhedberg/SimpylFold'
 Plug 'Shougo/deoplete.nvim'
 Plug 'roxma/nvim-yarp'
 Plug 'roxma/vim-hug-neovim-rpc'
-" Plug 'mhartington/nvim-typescript'
+Plug 'carlitux/deoplete-ternjs',
+    \ { 'do': 'yarn global add tern --ignore-engines' }
+" Plug 'mhartington/nvim-typescript',
+            " \{ 'do': 'yarn global add typescript --ignore-engines', 'for': 'typescript' }
 
 Plug 'jiangmiao/auto-pairs'
 
@@ -144,7 +147,7 @@ let g:airline#extensions#tabline#buffer_nr_show = 1
 set helplang=cn
 
 " ctrlp
-let g:ctrp_show_hidden = 1
+let g:ctrlp_show_hidden = 1
 let g:ctrlp_custom_ignore = {
     \ 'dir':  '\v[\/](node_modules|target|dist)|(\.(swp|ico|git|svn))$',
     \ 'file': '\v\.(exe|so|dll)$',
@@ -168,9 +171,19 @@ let g:SimpylFold_docstring_preview = 1
 " deoplete
 let g:deoplete#enable_at_startup = 1
 " Use smartcase
-" let g:neocomplete#enable_smart_case = 1
+call deoplete#custom#option('smartcase', v:true)
+" let g:deoplete#omni#functions = {}
+" let g:deoplete#omni#functions.javascript = [
+    " \ 'tern#Complete',
+    " \ 'jspc#omni'
+" \]
+" let g:deoplete#sources = {}
+" let g:deoplete#sources['javascript.jsx'] = ['file', 'ultisnips', 'ternjs']
+" let g:tern#command = ['tern']
+" let g:tern#arguments = ['--persistent']
+
 " Set minimum syntax keyword length.
-let g:deoplete#sources#syntax#min_keyword_length = 3
+" let g:deoplete#sources#syntax#min_keyword_length = 3
 " Enable omni completion.
 " autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
 " autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
@@ -185,16 +198,20 @@ let g:NERDTrimTrailingWhitespace = 1
 
 " ale
 let g:ale_linters = {
-\   'java': ['javac'],
-\   'javascript': ['eslint'],
-\   'typescript': ['tslint'],
-\   'python': ['flake8'],
-\   'solidity': ['solium'],
-\   'proto': ['protoc-gen-lint']
-\}
+    \ 'java': ['javac'],
+    \ 'javascript': ['eslint'],
+    \ 'typescript': ['tslint'],
+    \ 'python': ['flake8'],
+    \ 'solidity': ['solium'],
+    \ 'proto': ['protoc-gen-lint']
+    \}
+let g:ale_fixers = {
+    \ 'javascript': ['eslint']
+    \}
 let g:ale_javascript_eslint_use_global = 1
 " Set this. Airline will handle the rest.
 let g:airline#extensions#ale#enabled = 1
+nmap <leader>d <Plug>(ale_fix)
 
 " Emmet
 let g:user_emmet_expandabbr_key = '<C-d>'
@@ -238,7 +255,7 @@ let g:javascript_plugin_ngdoc = 1
 let g:javascript_plugin_flow = 1
 
 " typescript vim
-let g:typescript_indent_disable = 1
+" let g:typescript_indent_disable = 1
 
 " vim java complete
 " java compile
