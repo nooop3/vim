@@ -1,10 +1,10 @@
 " ======================================
 "    FileName: .vimrc
 "    Author:   Edward Green
-"    Version:  1.3.0
+"    Version:  1.4.0
 "    Email:    zhendongguan@gmail.com
 "    Blog: https://uare.github.io
-"    Date: 2018-07-15
+"    Date: 2018-09-10
 " =======================================
 
 " Set mapleader
@@ -105,7 +105,7 @@ Plug 'fatih/vim-go'
 " php-cs-fixer
 " Plug 'stephpy/vim-php-cs-fixer'
 
-Plug 'python-mode/python-mode'
+" Plug 'python-mode/python-mode'
 
 Plug 'pangloss/vim-javascript'
 
@@ -202,11 +202,12 @@ let g:ale_linters = {
     \ 'javascript': ['eslint'],
     \ 'typescript': ['tslint'],
     \ 'python': ['flake8'],
-    \ 'solidity': ['solium'],
-    \ 'proto': ['protoc-gen-lint']
+    \ 'proto': ['protoc-gen-lint'],
+    \ 'solidity': ['solium']
     \}
 let g:ale_fixers = {
-    \ 'javascript': ['eslint']
+    \ 'javascript': ['eslint'],
+    \ 'typescript': ['prettier']
     \}
 let g:ale_javascript_eslint_use_global = 1
 " Set this. Airline will handle the rest.
@@ -233,7 +234,7 @@ let g:pymode_folding = 0
 " Check code on every save (every)
 let g:pymode_lint_unmodified = 1
 let g:pymode_options_max_line_length = 120
-let g:pymode_lint_options_pep8 = 
+let g:pymode_lint_options_pep8 =
     \ {'ignore': '',
        \ 'max_line_length': g:pymode_options_max_line_length}
 let g:pymode_lint_options_mccabe = { 'complexity': 50 }
@@ -316,7 +317,7 @@ map <leader>8 :b 8<CR>
 map <leader>9 :b 9<CR>
 
 set number          " Show line number
-set ignorecase		" Do case insensitive matching
+" set ignorecase		" Do case insensitive matching
 set smartcase		" When searching try to be smart about cases
 set incsearch		" Incremental search
 set hlsearch		" Highlight search results
@@ -387,7 +388,7 @@ else
     if has("autocmd")
       au VimEnter,InsertLeave * silent execute '!echo -ne "\e[1 q"' | redraw!
       au InsertEnter,InsertChange *
-        \ if v:insertmode == 'i' | 
+        \ if v:insertmode == 'i' |
         \   silent execute '!echo -ne "\e[5 q"' | redraw! |
         \ elseif v:insertmode == 'r' |
         \   silent execute '!echo -ne "\e[3 q"' | redraw! |
@@ -439,6 +440,7 @@ func! DeleteTrailingWS()
   exe "normal `z"
 endfunc
 autocmd BufWrite *.py,*.pyw,*.c,*.h,*.coffee :call DeleteTrailingWS()
+autocmd BufNewFile,BufRead crontab* set filetype=crontab
 
 autocmd BufNewFile,BufRead *.js,*.json,*.ts,*tsx,*.html,*.css,*.yml,*.proto
   \ set tabstop=2 |
