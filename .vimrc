@@ -131,16 +131,19 @@ call plug#end()
 " Plugin Configure
 """""""""""""""""""""""""""
 
+" Vim-rooter Configure
+let g:rooter_silent_chdir = 1
+
 " Fzf Configure
 let g:fzf_nvim_statusline = 0 " disable statusline overwriting
 
-nnoremap <silent> <leader><space> :Files<CR>
+nnoremap <silent> <C-p> :Files<CR>
 nnoremap <silent> <leader>a :Buffers<CR>
 nnoremap <silent> <leader>A :Windows<CR>
 nnoremap <silent> <leader>; :BLines<CR>
 nnoremap <silent> <leader>o :BTags<CR>
 nnoremap <silent> <leader>O :Tags<CR>
-nnoremap <silent> <leader>? :History<CR>
+nnoremap <silent> <leader><space> :History<CR>
 nnoremap <silent> <leader>/ :execute 'Ag ' . input('Ag/')<CR>
 nnoremap <silent> <leader>. :AgIn
 
