@@ -12,41 +12,41 @@ let mapleader = ';'
 let g:mapleader = ';'
 
 if !exists('g:os')
-  if has('win64') || has('win32') || has('win16')
-    let g:os = 'Windows'
-  else
-    let g:os = substitute(system('uname'), '\n', '', '')
-  endif
+    if has('win64') || has('win32') || has('win16')
+        let g:os = 'Windows'
+    else
+        let g:os = substitute(system('uname'), '\n', '', '')
+    endif
 endif
 
 if g:os == 'Windows'
-  " Windows (PowerShell)
-  md ~\vimfiles\autoload
-  $uri = 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-  (New-Object Net.WebClient).DownloadFile(
+    " Windows (PowerShell)
+    md ~\vimfiles\autoload
+    $uri = 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+    (New-Object Net.WebClient).DownloadFile(
     $uri,
     $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath(
-      '~\vimfiles\autoload\plug.vim'
+    '~\vimfiles\autoload\plug.vim'
     )
-  )
-  set wildignore+=*\\tmp\\*,*.swp,*.zip,*.exe
+    )
+    set wildignore+=*\\tmp\\*,*.swp,*.zip,*.exe
 else
-  " Unix (MacOs, Linux)
-  if empty(glob('~/.vim/autoload/plug.vim'))
-    silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-      \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-  endif
-  " add fzf support
-  if has('Mac')
-    set rtp+=/usr/local/opt/fzf
-  endif
-  set wildignore+=*/tmp/*,*.so,*.swp,*.zip
+    " Unix (MacOs, Linux)
+    if empty(glob('~/.vim/autoload/plug.vim'))
+        silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+                    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+        autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+    endif
+    " add fzf support
+    if has('Mac')
+        set rtp+=/usr/local/opt/fzf
+    endif
+    set wildignore+=*/tmp/*,*.so,*.swp,*.zip
 endif
 
 function! Cond(cond, ...)
-  let opts = get(a:000, 0, {})
-  return a:cond ? opts : extend(opts, { 'on': [], 'for': [] })
+    let opts = get(a:000, 0, {})
+    return a:cond ? opts : extend(opts, { 'on': [], 'for': [] })
 endfunction
 
 
@@ -61,6 +61,12 @@ call plug#begin('~/.vim/plugged')
 " Vim-plug help doc
 Plug 'junegunn/vim-plug'
 
+" vim rooter
+Plug 'airblade/vim-rooter'
+
+" Fzf vim
+Plug 'junegunn/fzf.vim'
+
 " Color Schemes
 Plug 'morhetz/gruvbox'
 
@@ -68,7 +74,8 @@ Plug 'morhetz/gruvbox'
 " Plug 'altercation/vim-colors-solarized'
 
 " Airline status line
-Plug 'bling/vim-airline'
+Plug 'tpope/vim-fugitive'
+Plug 'vim-airline/vim-airline'
 
 " Chinese help docs
 Plug 'asins/vimcdoc'
@@ -87,9 +94,9 @@ Plug 'Shougo/deoplete.nvim'
 Plug 'roxma/nvim-yarp'
 Plug 'roxma/vim-hug-neovim-rpc'
 Plug 'carlitux/deoplete-ternjs',
-    \ { 'do': 'yarn global add tern --ignore-engines' }
+            \ { 'do': 'yarn global add tern --ignore-engines' }
 " Plug 'mhartington/nvim-typescript',
-            " \{ 'do': 'yarn global add typescript --ignore-engines', 'for': 'typescript' }
+" \{ 'do': 'yarn global add typescript --ignore-engines', 'for': 'typescript' }
 
 Plug 'jiangmiao/auto-pairs'
 
@@ -124,6 +131,83 @@ call plug#end()
 " Plugin Configure
 """""""""""""""""""""""""""
 
+" Fzf Configure
+let g:fzf_nvim_statusline = 0 " disable statusline overwriting
+
+nnoremap <silent> <leader><space> :Files<CR>
+nnoremap <silent> <leader>a :Buffers<CR>
+nnoremap <silent> <leader>A :Windows<CR>
+nnoremap <silent> <leader>; :BLines<CR>
+nnoremap <silent> <leader>o :BTags<CR>
+nnoremap <silent> <leader>O :Tags<CR>
+nnoremap <silent> <leader>? :History<CR>
+nnoremap <silent> <leader>/ :execute 'Ag ' . input('Ag/')<CR>
+nnoremap <silent> <leader>. :AgIn
+
+nnoremap <silent> K :call SearchWordWithAg()<CR>
+vnoremap <silent> K :call SearchVisualSelectionWithAg()<CR>
+nnoremap <silent> <leader>gl :Commits<CR>
+nnoremap <silent> <leader>ga :BCommits<CR>
+nnoremap <silent> <leader>ft :Filetypes<CR>
+
+imap <C-x><C-f> <plug>(fzf-complete-file-ag)
+imap <C-x><C-l> <plug>(fzf-complete-line)
+
+function! SearchWordWithAg()
+    execute 'Ag' expand('<cword>')
+endfunction
+
+function! SearchVisualSelectionWithAg() range
+    let old_reg = getreg('"')
+    let old_regtype = getregtype('"')
+    let old_clipboard = &clipboard
+    set clipboard&
+    normal! ""gvy
+    let selection = getreg('"')
+    call setreg('"', old_reg, old_regtype)
+    let &clipboard = old_clipboard
+    execute 'Ag' selection
+endfunction
+
+function! SearchWithAgInDirectory(...)
+    call fzf#vim#ag(join(a:000[1:], ' '), extend({'dir': a:1}, g:fzf#vim#default_layout))
+endfunction
+command! -nargs=+ -complete=dir AgIn call SearchWithAgInDirectory(<f-args>)
+
+function! s:update_fzf_colors()
+    let rules =
+                \ { 'fg':      [['Normal',       'fg']],
+                \ 'bg':      [['Normal',       'bg']],
+                \ 'hl':      [['Comment',      'fg']],
+                \ 'fg+':     [['CursorColumn', 'fg'], ['Normal', 'fg']],
+                \ 'bg+':     [['CursorColumn', 'bg']],
+                \ 'hl+':     [['Statement',    'fg']],
+                \ 'info':    [['PreProc',      'fg']],
+                \ 'prompt':  [['Conditional',  'fg']],
+                \ 'pointer': [['Exception',    'fg']],
+                \ 'marker':  [['Keyword',      'fg']],
+                \ 'spinner': [['Label',        'fg']],
+                \ 'header':  [['Comment',      'fg']] }
+    let cols = []
+    for [name, pairs] in items(rules)
+        for pair in pairs
+            let code = synIDattr(synIDtrans(hlID(pair[0])), pair[1])
+            if !empty(name) && code > 0
+                call add(cols, name.':'.code)
+                break
+            endif
+        endfor
+    endfor
+    let s:orig_fzf_default_opts = get(s:, 'orig_fzf_default_opts', $FZF_DEFAULT_OPTS)
+    let $FZF_DEFAULT_OPTS = s:orig_fzf_default_opts .
+                \ empty(cols) ? '' : (' --color='.join(cols, ','))
+endfunction
+
+augroup _fzf
+    autocmd!
+    autocmd ColorScheme * call <sid>update_fzf_colors()
+augroup END
+
 " Color Schemes Configure
 set background=dark
 if has('gui_running')
@@ -149,10 +233,10 @@ set helplang=cn
 " ctrlp
 let g:ctrlp_show_hidden = 1
 let g:ctrlp_custom_ignore = {
-    \ 'dir':  '\v[\/](node_modules|target|dist)|(\.(swp|ico|git|svn))$',
-    \ 'file': '\v\.(exe|so|dll)$',
-    \ 'link': 'some_bad_symbolic_links',
-    \ }
+            \ 'dir':  '\v[\/](node_modules|target|dist)|(\.(swp|ico|git|svn))$',
+            \ 'file': '\v\.(exe|so|dll)$',
+            \ 'link': 'some_bad_symbolic_links',
+            \ }
 
 " NERDTree
 " open a NERDTree aotomatically
@@ -174,8 +258,8 @@ let g:deoplete#enable_at_startup = 1
 call deoplete#custom#option('smartcase', v:true)
 " let g:deoplete#omni#functions = {}
 " let g:deoplete#omni#functions.javascript = [
-    " \ 'tern#Complete',
-    " \ 'jspc#omni'
+" \ 'tern#Complete',
+" \ 'jspc#omni'
 " \]
 " let g:deoplete#sources = {}
 " let g:deoplete#sources['javascript.jsx'] = ['file', 'ultisnips', 'ternjs']
@@ -198,17 +282,17 @@ let g:NERDTrimTrailingWhitespace = 1
 
 " ale
 let g:ale_linters = {
-    \ 'java': ['javac'],
-    \ 'javascript': ['eslint'],
-    \ 'typescript': ['tslint'],
-    \ 'python': ['flake8'],
-    \ 'proto': ['protoc-gen-lint'],
-    \ 'solidity': ['solium']
-    \}
+            \ 'java': ['javac'],
+            \ 'javascript': ['eslint'],
+            \ 'typescript': ['tslint'],
+            \ 'python': ['flake8'],
+            \ 'proto': ['protoc-gen-lint'],
+            \ 'solidity': ['solium']
+            \}
 let g:ale_fixers = {
-    \ 'javascript': ['eslint'],
-    \ 'typescript': ['prettier']
-    \}
+            \ 'javascript': ['eslint'],
+            \ 'typescript': ['prettier']
+            \}
 let g:ale_javascript_eslint_use_global = 1
 " Set this. Airline will handle the rest.
 let g:airline#extensions#ale#enabled = 1
@@ -235,8 +319,8 @@ let g:pymode_folding = 0
 let g:pymode_lint_unmodified = 1
 let g:pymode_options_max_line_length = 120
 let g:pymode_lint_options_pep8 =
-    \ {'ignore': '',
-       \ 'max_line_length': g:pymode_options_max_line_length}
+            \ {'ignore': '',
+            \ 'max_line_length': g:pymode_options_max_line_length}
 let g:pymode_lint_options_mccabe = { 'complexity': 50 }
 " skip tab warnings
 " let g:pymode_lint_ignore = "E501,C901"
@@ -304,17 +388,17 @@ if has("autocmd")
     au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 endif
 
-nnoremap [b :bp<CR>
-nnoremap ]b :bn<CR>
-map <leader>1 :b 1<CR>
-map <leader>2 :b 2<CR>
-map <leader>3 :b 3<CR>
-map <leader>4 :b 4<CR>
-map <leader>5 :b 5<CR>
-map <leader>6 :b 6<CR>
-map <leader>7 :b 7<CR>
-map <leader>8 :b 8<CR>
-map <leader>9 :b 9<CR>
+nnoremap [b :gt
+nnoremap ]b :gT
+map <leader>1 1gt
+map <leader>2 2gt
+map <leader>3 3gt
+map <leader>4 4gt
+map <leader>5 5gt
+map <leader>6 6gt
+map <leader>7 7gt
+map <leader>8 8gt
+map <leader>9 9gt
 
 set number          " Show line number
 " set ignorecase		" Do case insensitive matching
@@ -378,56 +462,56 @@ set fileformats=unix
 
 " Swap iTerm2 cursors in vim insert mode when using tmux
 if exists('$TMUX')
-  let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
-  let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+    let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
+    let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
 else
-  if has('macunix')
-    let &t_SI = "\<Esc>]50;CursorShape=1\x7"
-    let &t_EI = "\<Esc>]50;CursorShape=0\x7"
-  else
-    if has("autocmd")
-      au VimEnter,InsertLeave * silent execute '!echo -ne "\e[1 q"' | redraw!
-      au InsertEnter,InsertChange *
-        \ if v:insertmode == 'i' |
-        \   silent execute '!echo -ne "\e[5 q"' | redraw! |
-        \ elseif v:insertmode == 'r' |
-        \   silent execute '!echo -ne "\e[3 q"' | redraw! |
-        \ endif
-      au VimLeave * silent execute '!echo -ne "\e[ q"' | redraw!
-    endif
-  end
+    if has('macunix')
+        let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+        let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+    else
+        if has("autocmd")
+            au VimEnter,InsertLeave * silent execute '!echo -ne "\e[1 q"' | redraw!
+            au InsertEnter,InsertChange *
+                        \ if v:insertmode == 'i' |
+                        \   silent execute '!echo -ne "\e[5 q"' | redraw! |
+                        \ elseif v:insertmode == 'r' |
+                        \   silent execute '!echo -ne "\e[3 q"' | redraw! |
+                        \ endif
+            au VimLeave * silent execute '!echo -ne "\e[ q"' | redraw!
+        endif
+    end
 endif
 
 set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ 14
 if has('mouse')
-  set mouse=a
+    set mouse=a
 endif
 " Allow saving of files as sudo when I forgot to start vim using sudo.
 cmap w!! w !sudo tee > /dev/null %
 
 function! GetGooglePythonIndent(lnum)
-  " Indent inside parens.
-  " Align with the open paren unless it is at the end of the line.
-  " E.g.
-  "   open_paren_not_at_EOL(100,
-  "                         (200,
-  "                          300),
-  "                         400)
-  "   open_paren_at_EOL(
-  "       100, 200, 300, 400)
-  call cursor(a:lnum, 1)
-  let [par_line, par_col] = searchpairpos('(\|{\|\[', '', ')\|}\|\]', 'bW',
-    \ "line('.') < " . (a:lnum - s:maxoff) . " ? dummy :"
-    \ . " synIDattr(synID(line('.'), col('.'), 1), 'name')"
-    \ . " =~ '\\(Comment\\|String\\)$'")
-  if par_line > 0
-    call cursor(par_line, 1)
-    if par_col != col("$") - 1
-      return par_col
+    " Indent inside parens.
+    " Align with the open paren unless it is at the end of the line.
+    " E.g.
+    "   open_paren_not_at_EOL(100,
+    "                         (200,
+    "                          300),
+    "                         400)
+    "   open_paren_at_EOL(
+    "       100, 200, 300, 400)
+    call cursor(a:lnum, 1)
+    let [par_line, par_col] = searchpairpos('(\|{\|\[', '', ')\|}\|\]', 'bW',
+                \ "line('.') < " . (a:lnum - s:maxoff) . " ? dummy :"
+                \ . " synIDattr(synID(line('.'), col('.'), 1), 'name')"
+                \ . " =~ '\\(Comment\\|String\\)$'")
+    if par_line > 0
+        call cursor(par_line, 1)
+        if par_col != col("$") - 1
+            return par_col
+        endif
     endif
-  endif
-  " Delegate the rest to the original function.
-  return GetPythonIndent(a:lnum)
+    " Delegate the rest to the original function.
+    return GetPythonIndent(a:lnum)
 endfunction
 
 " Indent Python in the Google way.
@@ -435,18 +519,18 @@ autocmd Filetype python setlocal indentexpr=GetGooglePythonIndent(v:lnum)
 
 " Delete trailing white space on save, useful for Python and CoffeeScript ;)
 func! DeleteTrailingWS()
-  exe "normal mz"
-  %s/\s\+$//ge
-  exe "normal `z"
+    exe "normal mz"
+    %s/\s\+$//ge
+    exe "normal `z"
 endfunc
 autocmd BufWrite *.py,*.pyw,*.c,*.h,*.coffee :call DeleteTrailingWS()
 autocmd BufNewFile,BufRead crontab* set filetype=crontab
 
 autocmd BufNewFile,BufRead *.js,*.json,*.ts,*tsx,*.html,*.css,*.yml,*.proto
-  \ set tabstop=2 |
-  \ set softtabstop=2 |
-  \ set shiftwidth=2
+            \ set tabstop=2 |
+            \ set softtabstop=2 |
+            \ set shiftwidth=2
 autocmd BufNewFile,BufRead *.md
-  \ set tabstop=4 |
-  \ set softtabstop=4 |
-  \ set shiftwidth=4
+            \ set tabstop=4 |
+            \ set softtabstop=4 |
+            \ set shiftwidth=4

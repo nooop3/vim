@@ -4,4 +4,4 @@
 _vimrc is for MS-windows
 
 ## Others
-Plugins manage: Vundle
+Plugins manage: vim-plug
