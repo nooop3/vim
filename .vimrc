@@ -39,7 +39,13 @@ else
     endif
     " add fzf support
     if has('Mac')
+        " brew install fzf
+        " $(brew --prefix)/opt/fzf/install
         set rtp+=/usr/local/opt/fzf
+    else
+        " git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+        " ~/.fzf/install
+        set rtp+=~/.fzf
     endif
     set wildignore+=*/tmp/*,*.so,*.swp,*.zip
 endif
