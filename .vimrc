@@ -111,6 +111,14 @@ Plug 'scrooloose/nerdcommenter'
 " Syntax checking
 Plug 'w0rp/ale'
 
+" Add maktaba and codefmt to the runtimepath.
+" (The latter must be installed before it can be used.)
+" Plug 'google/vim-maktaba'
+" Plug 'google/vim-codefmt'
+" Also add Glaive, which is used to configure codefmt's maktaba flags. See
+" `:help :Glaive` for usage.
+" Plug 'google/vim-glaive'
+
 Plug 'mattn/emmet-vim'
 
 Plug 'fatih/vim-go'
@@ -154,7 +162,9 @@ nnoremap <silent> <leader>/ :execute 'Ag ' . input('Ag/')<CR>
 nnoremap <silent> <leader>. :AgIn
 
 nnoremap <silent> K :call SearchWordWithAg()<CR>
+" vnoremap <silent> <leader>k :call SearchVisualSelectionWithAg()<CR>
 vnoremap <silent> K :call SearchVisualSelectionWithAg()<CR>
+" vnoremap <silent> <leader>k :call SearchVisualSelectionWithAg()<CR>
 nnoremap <silent> <leader>gl :Commits<CR>
 nnoremap <silent> <leader>ga :BCommits<CR>
 nnoremap <silent> <leader>ft :Filetypes<CR>
@@ -299,8 +309,10 @@ let g:ale_linters = {
             \ 'solidity': ['solium']
             \}
 let g:ale_fixers = {
+            \ '*': ['remove_trailing_lines', 'trim_whitespace'],
             \ 'javascript': ['eslint'],
-            \ 'typescript': ['prettier']
+            \ 'typescript': ['prettier'],
+            \ 'proto': ['clang-format']
             \}
 let g:ale_javascript_eslint_use_global = 1
 " Set this. Airline will handle the rest.
