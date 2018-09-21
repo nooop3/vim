@@ -314,6 +314,7 @@ let g:ale_fixers = {
             \ 'typescript': ['prettier'],
             \ 'proto': ['clang-format']
             \}
+let g:ale_c_clangformat_options = '-assume-filename=.proto'
 let g:ale_javascript_eslint_use_global = 1
 " Set this. Airline will handle the rest.
 let g:airline#extensions#ale#enabled = 1
