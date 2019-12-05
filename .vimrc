@@ -1,10 +1,10 @@
 " ======================================
 "    FileName: .vimrc
 "    Author:   Edward Green
-"    Version:  1.4.0
+"    Version:  1.5.0
 "    Email:    zhendongguan@gmail.com
 "    Blog: https://uare.github.io
-"    Date: 2018-09-10
+"    Date: 2019-12-05
 " =======================================
 
 " Set mapleader
@@ -26,8 +26,8 @@ if g:os == 'Windows'
     (New-Object Net.WebClient).DownloadFile(
     $uri,
     $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath(
-    '~\vimfiles\autoload\plug.vim'
-    )
+        '~\vimfiles\autoload\plug.vim'
+        )
     )
     set wildignore+=*\\tmp\\*,*.swp,*.zip,*.exe
 else
@@ -64,11 +64,8 @@ endfunction
 " - Avoid using standard Vim directory names like 'plugin'
 call plug#begin('~/.vim/plugged')
 
-" Vim-plug help doc
+" Vim-plug
 Plug 'junegunn/vim-plug'
-
-" vim rooter
-Plug 'airblade/vim-rooter'
 
 " Fzf vim
 Plug 'junegunn/fzf.vim'
@@ -79,6 +76,9 @@ Plug 'morhetz/gruvbox'
 " solarized color theme
 " Plug 'altercation/vim-colors-solarized'
 
+" vim polyglot
+Plug 'sheerun/vim-polyglot'
+
 " Airline status line
 Plug 'tpope/vim-fugitive'
 Plug 'vim-airline/vim-airline'
@@ -86,27 +86,27 @@ Plug 'vim-airline/vim-airline'
 " Chinese help docs
 Plug 'asins/vimcdoc'
 
-" Search files
-Plug 'ctrlpvim/ctrlp.vim'
-
 " Files browser
 Plug 'scrooloose/nerdtree'
 
+" vim rooter
+Plug 'airblade/vim-rooter'
+
 " Simple fold
 Plug 'tmhedberg/SimpylFold'
+
+Plug 'jiangmiao/auto-pairs'
+
+Plug 'scrooloose/nerdcommenter'
 
 " Python3 neovim client: pip3 install neovim
 Plug 'Shougo/deoplete.nvim'
 Plug 'roxma/nvim-yarp'
 Plug 'roxma/vim-hug-neovim-rpc'
 Plug 'carlitux/deoplete-ternjs',
-            \ { 'do': 'yarn global add tern --ignore-engines' }
+            \ { 'do': 'yarn global add tern --ignore-engines --registry=https://registry.npm.taobao.org' }
 " Plug 'mhartington/nvim-typescript',
 " \{ 'do': 'yarn global add typescript --ignore-engines', 'for': 'typescript' }
-
-Plug 'jiangmiao/auto-pairs'
-
-Plug 'scrooloose/nerdcommenter'
 
 " Syntax checking
 Plug 'w0rp/ale'
@@ -128,7 +128,7 @@ Plug 'fatih/vim-go'
 
 " Plug 'python-mode/python-mode'
 
-Plug 'pangloss/vim-javascript'
+" Plug 'pangloss/vim-javascript'
 
 Plug 'leafgarland/typescript-vim'
 
@@ -144,9 +144,6 @@ call plug#end()
 """""""""""""""""""""""""""
 " Plugin Configure
 """""""""""""""""""""""""""
-
-" Vim-rooter Configure
-let g:rooter_silent_chdir = 1
 
 " Fzf Configure
 let g:fzf_nvim_statusline = 0 " disable statusline overwriting
@@ -227,6 +224,9 @@ augroup _fzf
     autocmd ColorScheme * call <sid>update_fzf_colors()
 augroup END
 
+" Vim-rooter Configure
+let g:rooter_silent_chdir = 1
+
 " Color Schemes Configure
 set background=dark
 if has('gui_running')
@@ -248,14 +248,6 @@ let g:airline#extensions#tabline#buffer_nr_show = 1
 
 " Use chinese help doc
 set helplang=cn
-
-" ctrlp
-let g:ctrlp_show_hidden = 1
-let g:ctrlp_custom_ignore = {
-            \ 'dir':  '\v[\/](node_modules|target|dist)|(\.(swp|ico|git|svn))$',
-            \ 'file': '\v\.(exe|so|dll)$',
-            \ 'link': 'some_bad_symbolic_links',
-            \ }
 
 " NERDTree
 " open a NERDTree aotomatically
@@ -545,7 +537,7 @@ func! DeleteTrailingWS()
     %s/\s\+$//ge
     exe "normal `z"
 endfunc
-autocmd BufWrite *.py,*.pyw,*.c,*.h,*.coffee :call DeleteTrailingWS()
+autocmd BufWrite *.py,*.pyw,*.c,*.h,*.coffee,*.md :call DeleteTrailingWS()
 autocmd BufNewFile,BufRead crontab* set filetype=crontab
 
 autocmd BufNewFile,BufRead *.js,*.json,*.ts,*tsx,*.html,*.css,*.yml,*.proto
