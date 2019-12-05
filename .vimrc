@@ -99,15 +99,15 @@ Plug 'scrooloose/nerdcommenter'
 " Syntax checking
 Plug 'w0rp/ale'
 
+" coc.vim
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
 " vim polyglot
 Plug 'sheerun/vim-polyglot'
 
 " Python3 neovim client: pip3 install neovim
-Plug 'Shougo/deoplete.nvim'
 Plug 'roxma/nvim-yarp'
 Plug 'roxma/vim-hug-neovim-rpc'
-Plug 'carlitux/deoplete-ternjs',
-            \ { 'do': 'yarn global add tern --ignore-engines --registry=https://registry.npm.taobao.org' }
 " Plug 'mhartington/nvim-typescript',
 " \{ 'do': 'yarn global add typescript --ignore-engines', 'for': 'typescript' }
 
@@ -157,9 +157,9 @@ nnoremap <silent> <leader>/ :execute 'Ag ' . input('Ag/')<CR>
 nnoremap <silent> <leader>. :AgIn
 
 nnoremap <silent> K :call SearchWordWithAg()<CR>
-" vnoremap <silent> <leader>k :call SearchVisualSelectionWithAg()<CR>
+vnoremap <silent> <leader>k :call SearchVisualSelectionWithAg()<CR>
 vnoremap <silent> K :call SearchVisualSelectionWithAg()<CR>
-" vnoremap <silent> <leader>k :call SearchVisualSelectionWithAg()<CR>
+vnoremap <silent> <leader>k :call SearchVisualSelectionWithAg()<CR>
 nnoremap <silent> <leader>gl :Commits<CR>
 nnoremap <silent> <leader>ga :BCommits<CR>
 nnoremap <silent> <leader>ft :Filetypes<CR>
@@ -287,29 +287,6 @@ let g:ale_javascript_eslint_use_global = 1
 let g:airline#extensions#ale#enabled = 1
 nmap <leader>d <Plug>(ale_fix)
 
-" Shougo/deoplete.nvim
-let g:deoplete#enable_at_startup = 1
-" Use smartcase
-call deoplete#custom#option('smartcase', v:true)
-" let g:deoplete#omni#functions = {}
-" let g:deoplete#omni#functions.javascript = [
-" \ 'tern#Complete',
-" \ 'jspc#omni'
-" \]
-" let g:deoplete#sources = {}
-" let g:deoplete#sources['javascript.jsx'] = ['file', 'ultisnips', 'ternjs']
-" let g:tern#command = ['tern']
-" let g:tern#arguments = ['--persistent']
-
-" Set minimum syntax keyword length.
-" let g:deoplete#sources#syntax#min_keyword_length = 3
-" Enable omni completion.
-" autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-" autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-" autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-" autocmd FileType python setlocal omnifunc=python3complete#Complete
-" autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-
 " mattn/emmet-vim
 let g:user_emmet_expandabbr_key = '<C-d>'
 " let g:user_emmet_expandabbr_key = '<Tab>'
@@ -418,9 +395,10 @@ set scrolloff=5     " Minimum number of lines above and below of cursor
 set history=50		" keep 50 lines of command line history
 set ruler			" show the cursor position all the time
 set cursorline      " Highlight the screen line of the line
-set cmdheight=1     " Set number of the lines to use for the command-lines
+set cmdheight=2     " Set number of the lines to use for the command-lines
 set cursorline      " Highlight the screen line of the line
 set cursorcolumn    " Highlight the screen column of the cursor
+set signcolumn=yes
 set showmatch		" Show matching brackets.
 set autoindent		" always set autoindenting on
 set showcmd			" Show (partial) command in status line.
@@ -429,11 +407,13 @@ set autoread        " Auto read file when changed outside of vim
 set autowrite		" Automatically save before commands like :next and :make
 set hidden			" Hide buffers when they are abandoned
 set nobackup		" do not keep a backup file, use versions instead
+set nowritebackup
+set updatetime=300
 set smartindent     " Smart indent
 set wrap            " set word wrap
 set shortmess=atI   " Cancel the welcome screen
 set noswapfile		" Turn backup off
-set linebreak       " 不在单词中间断行
+set linebreak
 set splitright
 set splitbelow
 " Enable folding
