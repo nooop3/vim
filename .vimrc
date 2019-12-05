@@ -76,9 +76,6 @@ Plug 'morhetz/gruvbox'
 " solarized color theme
 " Plug 'altercation/vim-colors-solarized'
 
-" vim polyglot
-Plug 'sheerun/vim-polyglot'
-
 " Airline status line
 Plug 'tpope/vim-fugitive'
 Plug 'vim-airline/vim-airline'
@@ -86,11 +83,11 @@ Plug 'vim-airline/vim-airline'
 " Chinese help docs
 Plug 'asins/vimcdoc'
 
-" Files browser
-Plug 'scrooloose/nerdtree'
-
 " vim rooter
 Plug 'airblade/vim-rooter'
+
+" Files browser
+Plug 'scrooloose/nerdtree'
 
 " Simple fold
 Plug 'tmhedberg/SimpylFold'
@@ -98,6 +95,12 @@ Plug 'tmhedberg/SimpylFold'
 Plug 'jiangmiao/auto-pairs'
 
 Plug 'scrooloose/nerdcommenter'
+
+" Syntax checking
+Plug 'w0rp/ale'
+
+" vim polyglot
+Plug 'sheerun/vim-polyglot'
 
 " Python3 neovim client: pip3 install neovim
 Plug 'Shougo/deoplete.nvim'
@@ -107,9 +110,6 @@ Plug 'carlitux/deoplete-ternjs',
             \ { 'do': 'yarn global add tern --ignore-engines --registry=https://registry.npm.taobao.org' }
 " Plug 'mhartington/nvim-typescript',
 " \{ 'do': 'yarn global add typescript --ignore-engines', 'for': 'typescript' }
-
-" Syntax checking
-Plug 'w0rp/ale'
 
 " Add maktaba and codefmt to the runtimepath.
 " (The latter must be installed before it can be used.)
@@ -128,8 +128,6 @@ Plug 'fatih/vim-go'
 
 " Plug 'python-mode/python-mode'
 
-" Plug 'pangloss/vim-javascript'
-
 Plug 'leafgarland/typescript-vim'
 
 Plug 'artur-shaik/vim-javacomplete2'
@@ -145,7 +143,7 @@ call plug#end()
 " Plugin Configure
 """""""""""""""""""""""""""
 
-" Fzf Configure
+" junegunn/fzf.vim
 let g:fzf_nvim_statusline = 0 " disable statusline overwriting
 
 nnoremap <silent> <C-p> :Files<CR>
@@ -224,10 +222,7 @@ augroup _fzf
     autocmd ColorScheme * call <sid>update_fzf_colors()
 augroup END
 
-" Vim-rooter Configure
-let g:rooter_silent_chdir = 1
-
-" Color Schemes Configure
+" morhetz/gruvbox
 set background=dark
 if has('gui_running')
     " let g:solarized_termcolors=256
@@ -237,7 +232,7 @@ else
     colorscheme gruvbox
 endif
 
-" Airline
+" vim-airline/vim-airline
 set t_Co=256
 set laststatus=2
 let g:airline_powerline_fonts = 1
@@ -246,10 +241,13 @@ let g:airline#extensions#tabline#left_sep = ' '
 let g:airline#extensions#tabline#left_alt_sep = '|'
 let g:airline#extensions#tabline#buffer_nr_show = 1
 
-" Use chinese help doc
+" asins/vimcdoc
 set helplang=cn
 
-" NERDTree
+" airblade/vim-rooter
+let g:rooter_silent_chdir = 1
+
+" scrooloose/nerdtree
 " open a NERDTree aotomatically
 " autocmd vimenter * NERDTree
 " open NERDTree with Ctrl-n
@@ -260,10 +258,36 @@ autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 " close vim if the only window left open is a NERDTree
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 
-" SimpylFold
+" tmhedberg/SimpylFold
 let g:SimpylFold_docstring_preview = 1
 
-" deoplete
+" scrooloose/nerdcommenter
+let g:NERDSpaceDelims = 1
+let g:NERDCompactSextComs = 1
+let g:NERDTrimTrailingWhitespace = 1
+
+" w0rp/ale
+let g:ale_linters = {
+            \ 'java': ['javac'],
+            \ 'javascript': ['eslint'],
+            \ 'typescript': ['tslint'],
+            \ 'python': ['flake8'],
+            \ 'proto': ['protoc-gen-lint'],
+            \ 'solidity': ['solium']
+            \}
+let g:ale_fixers = {
+            \ '*': ['remove_trailing_lines', 'trim_whitespace'],
+            \ 'javascript': ['eslint'],
+            \ 'typescript': ['prettier'],
+            \ 'proto': ['clang-format']
+            \}
+let g:ale_c_clangformat_options = '-assume-filename=.proto'
+let g:ale_javascript_eslint_use_global = 1
+" Set this. Airline will handle the rest.
+let g:airline#extensions#ale#enabled = 1
+nmap <leader>d <Plug>(ale_fix)
+
+" Shougo/deoplete.nvim
 let g:deoplete#enable_at_startup = 1
 " Use smartcase
 call deoplete#custom#option('smartcase', v:true)
@@ -286,37 +310,11 @@ call deoplete#custom#option('smartcase', v:true)
 " autocmd FileType python setlocal omnifunc=python3complete#Complete
 " autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 
-" NERDCommenter
-let g:NERDSpaceDelims = 1
-let g:NERDCompactSextComs = 1
-let g:NERDTrimTrailingWhitespace = 1
-
-" ale
-let g:ale_linters = {
-            \ 'java': ['javac'],
-            \ 'javascript': ['eslint'],
-            \ 'typescript': ['tslint'],
-            \ 'python': ['flake8'],
-            \ 'proto': ['protoc-gen-lint'],
-            \ 'solidity': ['solium']
-            \}
-let g:ale_fixers = {
-            \ '*': ['remove_trailing_lines', 'trim_whitespace'],
-            \ 'javascript': ['eslint'],
-            \ 'typescript': ['prettier'],
-            \ 'proto': ['clang-format']
-            \}
-let g:ale_c_clangformat_options = '-assume-filename=.proto'
-let g:ale_javascript_eslint_use_global = 1
-" Set this. Airline will handle the rest.
-let g:airline#extensions#ale#enabled = 1
-nmap <leader>d <Plug>(ale_fix)
-
-" Emmet
+" mattn/emmet-vim
 let g:user_emmet_expandabbr_key = '<C-d>'
 " let g:user_emmet_expandabbr_key = '<Tab>'
 
-" vim-go
+" fatih/vim-go
 au FileType go nmap <leader>g  :<C-u>w !go run %<cr>
 let g:go_highlight_functions = 1
 let g:go_highlight_methods = 1
@@ -325,7 +323,7 @@ let g:go_highlight_types = 1
 let g:go_highlight_operators = 1
 let g:go_highlight_build_constraints = 1
 
-" python-mode
+" python-mode/python-mode
 let g:pymode_python = 'python3'
 let g:pymode_rope = 0
 let g:pymode_folding = 0
@@ -344,19 +342,10 @@ let g:pymode_lint_options_mccabe = { 'complexity': 50 }
 " open window vertically
 " autocmd BufEnter __run__,__doc__ :wincmd L
 
-" vim-javascript
-" Enables syntax highlight for JSDocs
-let g:javascript_plugin_jsdoc = 1
-" Enables some additional syntax highlight for NGDocs.
-" Requires JSDocs plugin to be enabled as well
-let g:javascript_plugin_ngdoc = 1
-" Enables syntax highlight for Flow
-let g:javascript_plugin_flow = 1
-
-" typescript vim
+" leafgarland/typescript-vim
 " let g:typescript_indent_disable = 1
 
-" vim java complete
+" artur-shik/vim-javacomplete2
 " java compile
 map <F2> :call CompileJava()<CR>
 func! CompileJava()
