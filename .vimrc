@@ -269,7 +269,6 @@ let g:NERDTrimTrailingWhitespace = 1
 " w0rp/ale
 let g:ale_linters = {
             \ 'java': ['javac'],
-            \ 'javascript': ['eslint'],
             \ 'typescript': ['tslint'],
             \ 'python': ['flake8'],
             \ 'proto': ['protoc-gen-lint'],
@@ -277,15 +276,15 @@ let g:ale_linters = {
             \}
 let g:ale_fixers = {
             \ '*': ['remove_trailing_lines', 'trim_whitespace'],
-            \ 'javascript': ['eslint'],
             \ 'typescript': ['prettier'],
             \ 'proto': ['clang-format']
             \}
 let g:ale_c_clangformat_options = '-assume-filename=.proto'
-let g:ale_javascript_eslint_use_global = 1
 " Set this. Airline will handle the rest.
 let g:airline#extensions#ale#enabled = 1
-nmap <leader>d <Plug>(ale_fix)
+
+" coc-vim
+nmap <leader>d <Plug>(coc-codeaction)
 
 " mattn/emmet-vim
 let g:user_emmet_expandabbr_key = '<C-d>'
