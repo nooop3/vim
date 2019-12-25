@@ -1,0 +1,5 @@
+{
+  // jsonc configuration file, supports comments
+  "javascript.suggest.autoImports": false,
+  "javascript.suggest.enabled": false
+}
