@@ -126,8 +126,6 @@ Plug 'fatih/vim-go'
 " php-cs-fixer
 " Plug 'stephpy/vim-php-cs-fixer'
 
-" Plug 'python-mode/python-mode'
-
 Plug 'leafgarland/typescript-vim'
 
 Plug 'artur-shaik/vim-javacomplete2'
@@ -236,6 +234,9 @@ endif
 set t_Co=256
 set laststatus=2
 let g:airline_powerline_fonts = 1
+" Set this. Airline will handle the rest.
+let g:airline#extensions#ale#enabled = 0
+let g:airline#extensions#coc#enabled = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#left_sep = ' '
 let g:airline#extensions#tabline#left_alt_sep = '|'
@@ -268,9 +269,10 @@ let g:NERDTrimTrailingWhitespace = 1
 
 " w0rp/ale
 let g:ale_linters = {
+            \ 'python': [],
+            \ 'javascript': [],
             \ 'java': ['javac'],
             \ 'typescript': ['tslint'],
-            \ 'python': ['flake8'],
             \ 'proto': ['protoc-gen-lint'],
             \ 'solidity': ['solium']
             \}
@@ -280,8 +282,6 @@ let g:ale_fixers = {
             \ 'proto': ['clang-format']
             \}
 let g:ale_c_clangformat_options = '-assume-filename=.proto'
-" Set this. Airline will handle the rest.
-let g:airline#extensions#ale#enabled = 1
 
 " coc-vim
 nmap <leader>d <Plug>(coc-codeaction)
@@ -298,25 +298,6 @@ let g:go_highlight_fields = 1
 let g:go_highlight_types = 1
 let g:go_highlight_operators = 1
 let g:go_highlight_build_constraints = 1
-
-" python-mode/python-mode
-let g:pymode_python = 'python3'
-let g:pymode_rope = 0
-let g:pymode_folding = 0
-" Check code on every save (every)
-let g:pymode_lint_unmodified = 1
-let g:pymode_options_max_line_length = 120
-let g:pymode_lint_options_pep8 =
-            \ {'ignore': '',
-            \ 'max_line_length': g:pymode_options_max_line_length}
-let g:pymode_lint_options_mccabe = { 'complexity': 50 }
-" skip tab warnings
-" let g:pymode_lint_ignore = "E501,C901"
-" let g:pymode_lint_ignore = "E501"
-" let g:pymode_lint_ignore = "E191"
-" let g:pymode_lint_ignore = "C901"
-" open window vertically
-" autocmd BufEnter __run__,__doc__ :wincmd L
 
 " leafgarland/typescript-vim
 " let g:typescript_indent_disable = 1
@@ -470,34 +451,6 @@ if has('mouse')
 endif
 " Allow saving of files as sudo when I forgot to start vim using sudo.
 cmap w!! w !sudo tee > /dev/null %
-
-function! GetGooglePythonIndent(lnum)
-    " Indent inside parens.
-    " Align with the open paren unless it is at the end of the line.
-    " E.g.
-    "   open_paren_not_at_EOL(100,
-    "                         (200,
-    "                          300),
-    "                         400)
-    "   open_paren_at_EOL(
-    "       100, 200, 300, 400)
-    call cursor(a:lnum, 1)
-    let [par_line, par_col] = searchpairpos('(\|{\|\[', '', ')\|}\|\]', 'bW',
-                \ "line('.') < " . (a:lnum - s:maxoff) . " ? dummy :"
-                \ . " synIDattr(synID(line('.'), col('.'), 1), 'name')"
-                \ . " =~ '\\(Comment\\|String\\)$'")
-    if par_line > 0
-        call cursor(par_line, 1)
-        if par_col != col("$") - 1
-            return par_col
-        endif
-    endif
-    " Delegate the rest to the original function.
-    return GetPythonIndent(a:lnum)
-endfunction
-
-" Indent Python in the Google way.
-autocmd Filetype python setlocal indentexpr=GetGooglePythonIndent(v:lnum)
 
 " Delete trailing white space on save, useful for Python and CoffeeScript ;)
 func! DeleteTrailingWS()

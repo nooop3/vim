@@ -1,4 +1,5 @@
 {
   // jsonc configuration file, supports comments
-  "javascript.suggestionActions.enabled": false
+  "javascript.suggestionActions.enabled": false,
+  "python.jediEnabled": false
 }
