@@ -66,7 +66,7 @@ Plug 'junegunn/vim-plug'
 Plug 'junegunn/fzf.vim'
 
 " Color Schemes
-Plug 'morhetz/gruvbox'
+Plug 'sainnhe/gruvbox-material'
 
 " solarized color theme
 if has('gui_running')
@@ -90,14 +90,14 @@ Plug 'jiangmiao/auto-pairs'
 
 Plug 'scrooloose/nerdcommenter'
 
+" vim polyglot
+Plug 'sheerun/vim-polyglot'
+
 " Syntax checking
 Plug 'w0rp/ale'
 
 " coc.vim
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-
-" vim polyglot
-Plug 'sheerun/vim-polyglot'
 
 " Python3 neovim client: pip3 install neovim
 Plug 'roxma/nvim-yarp'
@@ -116,8 +116,6 @@ Plug 'roxma/vim-hug-neovim-rpc'
 Plug 'mattn/emmet-vim'
 
 Plug 'fatih/vim-go'
-
-Plug 'udalov/kotlin-vim'
 
 " php-cs-fixer
 " Plug 'stephpy/vim-php-cs-fixer'
@@ -139,6 +137,8 @@ call plug#end()
 
 " junegunn/fzf.vim
 let g:fzf_nvim_statusline = 0 " disable statusline overwriting
+
+let g:fzf_buffers_jump = 1
 
 nnoremap <silent> <C-p> :Files<CR>
 nnoremap <silent> <leader>a :Buffers<CR>
@@ -217,16 +217,26 @@ augroup _fzf
 augroup END
 
 " Color Schemes
-" morhetz/gruvbox
-" altercation/vim-colors-solarized
+" for dark version
 set background=dark
 if has('gui_running')
     " let g:solarized_termcolors=256
     " let g:solarized_termtrans = 1
     colorscheme solarized
 else
-    colorscheme gruvbox
+    if has('termguicolors')
+        set termguicolors
+    endif
+
+    let g:gruvbox_material_background = 'hard'
+    let g:gruvbox_material_disable_italic_comment = 1
+
+    colorscheme gruvbox-material
+    " let g:airline_theme = 'gruvbox_material'
 endif
+
+" sheerun/vim-polyglot
+let g:polyglot_disabled = []
 
 " vim-airline/vim-airline
 set t_Co=256
