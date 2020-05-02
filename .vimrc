@@ -1,10 +1,10 @@
 " ======================================
 "    FileName: .vimrc
 "    Author:   Edward Green
-"    Version:  1.5.0
-"    Email:    zhendongguan@gmail.com
+"    Version:  2.0.0
+"    Email:    wanwanroad@gmail.com
 "    Blog: https://uare.github.io
-"    Date: 2019-12-05
+"    Date: 2020-05-02
 " =======================================
 
 " Set mapleader
@@ -24,9 +24,9 @@ if g:os == 'Windows'
     md ~\vimfiles\autoload
     $uri = 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
     (New-Object Net.WebClient).DownloadFile(
-    $uri,
-    $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath(
-        '~\vimfiles\autoload\plug.vim'
+        $uri,
+        $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath(
+            '~\vimfiles\autoload\plug.vim'
         )
     )
     set wildignore+=*\\tmp\\*,*.swp,*.zip,*.exe
@@ -50,11 +50,6 @@ else
     set wildignore+=*/tmp/*,*.so,*.swp,*.zip
 endif
 
-function! Cond(cond, ...)
-    let opts = get(a:000, 0, {})
-    return a:cond ? opts : extend(opts, { 'on': [], 'for': [] })
-endfunction
-
 
 """""""""""""""""""""""""""
 " vim-plug list
@@ -74,14 +69,13 @@ Plug 'junegunn/fzf.vim'
 Plug 'morhetz/gruvbox'
 
 " solarized color theme
-" Plug 'altercation/vim-colors-solarized'
+if has('gui_running')
+ Plug 'altercation/vim-colors-solarized'
+endif
 
 " Airline status line
 Plug 'tpope/vim-fugitive'
 Plug 'vim-airline/vim-airline'
-
-" Chinese help docs
-Plug 'asins/vimcdoc'
 
 " vim rooter
 Plug 'airblade/vim-rooter'
@@ -122,6 +116,8 @@ Plug 'roxma/vim-hug-neovim-rpc'
 Plug 'mattn/emmet-vim'
 
 Plug 'fatih/vim-go'
+
+Plug 'udalov/kotlin-vim'
 
 " php-cs-fixer
 " Plug 'stephpy/vim-php-cs-fixer'
@@ -220,7 +216,9 @@ augroup _fzf
     autocmd ColorScheme * call <sid>update_fzf_colors()
 augroup END
 
+" Color Schemes
 " morhetz/gruvbox
+" altercation/vim-colors-solarized
 set background=dark
 if has('gui_running')
     " let g:solarized_termcolors=256
@@ -242,9 +240,6 @@ let g:airline#extensions#tabline#left_sep = ' '
 let g:airline#extensions#tabline#left_alt_sep = '|'
 let g:airline#extensions#tabline#buffer_nr_show = 1
 
-" asins/vimcdoc
-set helplang=cn
-
 " airblade/vim-rooter
 let g:rooter_silent_chdir = 1
 
@@ -256,8 +251,6 @@ map <C-n> :NERDTreeToggle<CR>
 " open a NERDTree automatically when vim starts up if no files were specified
 autocmd StdinReadPre * let s:std_in = 1
 autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
-" close vim if the only window left open is a NERDTree
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 
 " tmhedberg/SimpylFold
 let g:SimpylFold_docstring_preview = 1
@@ -284,7 +277,117 @@ let g:ale_fixers = {
 let g:ale_c_clangformat_options = '-assume-filename=.proto'
 
 " coc-vim
-nmap <leader>d <Plug>(coc-codeaction)
+" Use tab for trigger completion with characters ahead and navigate.
+" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
+" other plugin before putting this into your config.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Use <c-space> to trigger completion.
+inoremap <silent><expr> <c-space> coc#refresh()
+
+" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
+" position. Coc only does snippet and additional edit on confirm.
+" <cr> could be remapped by other vim plugin, try `:verbose imap <CR>`.
+if exists('*complete_info')
+  inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+else
+  inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+endif
+
+" Use `[g` and `]g` to navigate diagnostics
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+" GoTo code navigation.
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" Use K to show documentation in preview window.
+" nnoremap <silent> KV :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+
+" Highlight the symbol and its references when holding the cursor.
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+" Symbol renaming.
+nmap <leader>rn <Plug>(coc-rename)
+
+" Formatting selected code.
+xmap <leader>f  <Plug>(coc-format-selected)
+nmap <leader>f  <Plug>(coc-format-selected)
+
+" Applying codeAction to the selected region.
+" Example: `<leader>aap` for current paragraph
+xmap <leader>a  <Plug>(coc-codeaction-selected)
+nmap <leader>a  <Plug>(coc-codeaction-selected)
+
+" Remap keys for applying codeAction to the current line.
+nmap <leader>ac  <Plug>(coc-codeaction)
+" Apply AutoFix to problem on the current line.
+nmap <leader>qf  <Plug>(coc-fix-current)
+
+" Introduce function text object
+" NOTE: Requires 'textDocument.documentSymbol' support from the language server.
+xmap if <Plug>(coc-funcobj-i)
+xmap af <Plug>(coc-funcobj-a)
+omap if <Plug>(coc-funcobj-i)
+omap af <Plug>(coc-funcobj-a)
+
+" Use <TAB> for selections ranges.
+" NOTE: Requires 'textDocument/selectionRange' support from the language server.
+" coc-tsserver, coc-python are the examples of servers that support it.
+nmap <silent> <TAB> <Plug>(coc-range-select)
+xmap <silent> <TAB> <Plug>(coc-range-select)
+
+" Add `:Format` command to format current buffer.
+command! -nargs=0 Format :call CocAction('format')
+
+" Add `:Fold` command to fold current buffer.
+command! -nargs=? Fold :call     CocAction('fold', <f-args>)
+
+" Add `:OR` command for organize imports of the current buffer.
+command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
+
+" Add (Neo)Vim's native statusline support.
+" NOTE: Please see `:h coc-status` for integrations with external plugins that
+" provide custom statusline: lightline.vim, vim-airline.
+set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+
+" Mappings using CoCList:
+" Show all diagnostics.
+nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
+" Manage extensions.
+nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
+" Show commands.
+nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
+" Find symbol of current document.
+nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
+" Search workspace symbols.
+nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
+" Do default action for next item.
+nnoremap <silent> <space>j  :<C-u>CocNext<CR>
+" Do default action for previous item.
+nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
+" Resume latest coc list.
+nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 
 " mattn/emmet-vim
 let g:user_emmet_expandabbr_key = '<C-d>'
@@ -360,6 +463,12 @@ map <leader>7 7gt
 map <leader>8 8gt
 map <leader>9 9gt
 
+" Support navigating in vims commnad mode
+cnoremap <C-a> <Home>
+cnoremap <C-e> <End>
+cnoremap <C-b> <Left>
+cnoremap <C-f> <Right>
+
 set number          " Show line number
 " set ignorecase		" Do case insensitive matching
 set smartcase		" When searching try to be smart about cases
@@ -391,7 +500,7 @@ set nowritebackup
 set updatetime=300
 set smartindent     " Smart indent
 set wrap            " set word wrap
-set shortmess=atI   " Cancel the welcome screen
+set shortmess=atIc  " Cancel the welcome screen
 set noswapfile		" Turn backup off
 set linebreak
 set splitright
