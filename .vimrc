@@ -461,7 +461,11 @@ endfunc
 autocmd BufWrite *.py,*.pyw,*.c,*.h,*.coffee,*.md :call DeleteTrailingWS()
 autocmd BufNewFile,BufRead crontab* set filetype=crontab
 
-autocmd BufNewFile,BufRead *.js,*.json,*.ts,*tsx,*.html,*.css,*.yml,*.proto
+autocmd FileType sh
+            \ set tabstop=2 |
+            \ set softtabstop=2 |
+            \ set shiftwidth=2
+autocmd BufNewFile,BufRead *.js,*.json,*.ts,*tsx,*.html,*.css,*.yml,*.proto,*.sh
             \ set tabstop=2 |
             \ set softtabstop=2 |
             \ set shiftwidth=2
