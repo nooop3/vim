@@ -150,7 +150,7 @@ nnoremap <silent> <leader><space> :History<CR>
 nnoremap <silent> <leader>/ :execute 'Ag ' . input('Ag/')<CR>
 nnoremap <silent> <leader>. :AgIn
 
-nnoremap <silent> K :call SearchWordWithAg()<CR>
+nnoremap <silent> <C-k> :call SearchWordWithAg()<CR>
 vnoremap <silent> <leader>k :call SearchVisualSelectionWithAg()<CR>
 vnoremap <silent> K :call SearchVisualSelectionWithAg()<CR>
 vnoremap <silent> <leader>k :call SearchVisualSelectionWithAg()<CR>
