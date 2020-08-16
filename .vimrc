@@ -533,6 +533,7 @@ set encoding=utf8   " Set utf8 as standard encoding and en_US as the standard la
 " allow backspacing over everything in insert mode
 set fileformat=unix
 set fileformats=unix
+" set clipboard=unnamed
 " Configured Cursor Color
 " Black ;DarkBlue ;DarkGreen ;DarkCyan ;DarkRed ;DarkMagenta ;
 " Brown, DarkYellow ;LightGray, LightGrey, Gray, Grey ;
