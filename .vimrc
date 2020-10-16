@@ -55,6 +55,9 @@ endif
 " vim-plug list
 """""""""""""""""""""""""""
 
+" sheerun/vim-polyglot
+let g:polyglot_disabled = []
+
 " Specify a directory for plugins
 " - Avoid using standard Vim directory names like 'plugin'
 call plug#begin('~/.vim/plugged')
@@ -236,7 +239,6 @@ else
 endif
 
 " sheerun/vim-polyglot
-let g:polyglot_disabled = []
 
 " vim-airline/vim-airline
 set t_Co=256
