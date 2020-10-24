@@ -1,11 +1,15 @@
 " ======================================
 "    FileName: .vimrc
-"    Author:   Edward Green
+"    Author:   Edward Guan
 "    Version:  2.0.0
-"    Email:    wanwanroad@gmail.com
+"    Email:    nooop3.lau@gmail.com
 "    Blog: https://uare.github.io
-"    Date: 2020-05-02
+"    Date: 2020-10-24
 " =======================================
+
+" Vim 8 defaults
+unlet! skip_defaults_vim
+source $VIMRUNTIME/defaults.vim
 
 " Set mapleader
 let mapleader = ';'
@@ -448,10 +452,10 @@ imap <F7> <Plug>(JavaComplete-Imports-RemoveUnused)
 " Keybind Setting
 """""""""""""""""""""""""""
 
-" Fast reloading of the .vimrc
-map <silent> <leader>ss :source ~/.vimrc<CR>
-" Fast editing of .vimrc
-map <silent> <leader>ee :e ~/.vimrc<CR>
+" Fast reloading of the MYVIMRC
+map <silent> <leader>ss :source $MYVIMRC<CR>
+" Fast editing of MYVIMRC
+map <silent> <leader>ee :e $MYVIMRC<CR>
 " When .vimrc is edited, reload it
 autocmd! bufwritepost .vimrc source ~/.vimrc
 " Fast saving
@@ -482,38 +486,33 @@ cnoremap <C-b> <Left>
 cnoremap <C-f> <Right>
 
 set number          " Show line number
-" set ignorecase		" Do case insensitive matching
-set smartcase		" When searching try to be smart about cases
-set incsearch		" Incremental search
-set hlsearch		" Highlight search results
+" set ignorecase        " Do case insensitive matching
+set smartcase       " When searching try to be smart about cases
+set hlsearch        " Highlight search results
 set tabstop=4
 set softtabstop=4
 set shiftwidth=4
-set expandtab		" Use Space instead of tabs
+set expandtab       " Use Space instead of tabs
 set smarttab        " Be smart when using tabs:)
 set textwidth=79
-set scrolloff=5     " Minimum number of lines above and below of cursor
-set history=50		" keep 50 lines of command line history
-set ruler			" show the cursor position all the time
 set cursorline      " Highlight the screen line of the line
 set cmdheight=2     " Set number of the lines to use for the command-lines
 set cursorline      " Highlight the screen line of the line
 set cursorcolumn    " Highlight the screen column of the cursor
 set signcolumn=yes
-set showmatch		" Show matching brackets.
-set autoindent		" always set autoindenting on
-set showcmd			" Show (partial) command in status line.
+set showmatch       " Show matching brackets.
+set autoindent      " always set autoindenting on
 set showmode        " Show Current mode
 set autoread        " Auto read file when changed outside of vim
-set autowrite		" Automatically save before commands like :next and :make
-set hidden			" Hide buffers when they are abandoned
-set nobackup		" do not keep a backup file, use versions instead
+set autowrite       " Automatically save before commands like :next and :make
+set hidden          " Hide buffers when they are abandoned
+set nobackup        " do not keep a backup file, use versions instead
 set nowritebackup
 set updatetime=300
 set smartindent     " Smart indent
 set wrap            " set word wrap
 set shortmess=atIc  " Cancel the welcome screen
-set noswapfile		" Turn backup off
+set noswapfile      " Turn backup off
 set linebreak
 set splitright
 set splitbelow
@@ -524,9 +523,7 @@ set foldlevel=99
 nnoremap <space> za
 set completeopt-=preview
 " disable perview
-set wildmenu
 set whichwrap=b,<,>,[,],h,l
-set backspace=indent,eol,start
 " Use Unix as the standard file type
 set pastetoggle=<F9>
 set guioptions=
@@ -568,9 +565,6 @@ else
 endif
 
 set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ 14
-if has('mouse')
-    set mouse=a
-endif
 " Allow saving of files as sudo when I forgot to start vim using sudo.
 cmap w!! w !sudo tee > /dev/null %
 
