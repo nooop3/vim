@@ -487,6 +487,12 @@ map <silent> <leader><CR> :set nohlsearch<CR>
 if has("autocmd")
     au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 endif
+" Go to the last cursor location when a file is opened, unless this is a
+" git commit (in which case it's annoying)
+au BufReadPost *
+    \ if line("'\"") > 0 && line("'\"") <= line("$") && &filetype != "gitcommit" |
+        \ execute("normal `\"") |
+    \ endif
 
 nnoremap [b :gt
 nnoremap ]b :gT
