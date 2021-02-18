@@ -1,5 +1,5 @@
 {
   // jsonc configuration file, supports comments
   "javascript.suggestionActions.enabled": false,
-  "python.jediEnabled": false
+  "python.pythonPath": "python3"
 }
