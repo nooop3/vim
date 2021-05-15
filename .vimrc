@@ -77,7 +77,7 @@ Plug 'sainnhe/gruvbox-material'
 
 " solarized color theme
 if has('gui_running')
- Plug 'altercation/vim-colors-solarized'
+    Plug 'altercation/vim-colors-solarized'
 endif
 
 " Airline status line
@@ -577,26 +577,26 @@ set fileformats=unix
 " highlight CursorColumn ctermbg=DarkBlue
 
 " Swap iTerm2 cursors in vim insert mode when using tmux
-if exists('$TMUX')
-    let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
-    let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
-else
-    if has('macunix')
+if has('macunix')
+    if exists('$TMUX')
+        let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
+        let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+    else
         let &t_SI = "\<Esc>]50;CursorShape=1\x7"
         let &t_EI = "\<Esc>]50;CursorShape=0\x7"
-    else
-        if has("autocmd")
-            au VimEnter,InsertLeave * silent execute '!echo -ne "\e[1 q"' | redraw!
-            au InsertEnter,InsertChange *
-                        \ if v:insertmode == 'i' |
-                        \   silent execute '!echo -ne "\e[5 q"' | redraw! |
-                        \ elseif v:insertmode == 'r' |
-                        \   silent execute '!echo -ne "\e[3 q"' | redraw! |
-                        \ endif
-            au VimLeave * silent execute '!echo -ne "\e[ q"' | redraw!
-        endif
-    end
-endif
+    endif
+else
+    if has('autocmd')
+        au VimEnter,InsertLeave * silent execute '!echo -ne "\e[1 q"' | redraw!
+        au InsertEnter,InsertChange *
+            \ if v:insertmode == 'i' |
+            \   silent execute '!echo -ne "\e[5 q"' | redraw! |
+            \ elseif v:insertmode == 'r' |
+            \   silent execute '!echo -ne "\e[3 q"' | redraw! |
+            \ endif
+        au VimLeave * silent execute '!echo -ne "\e[ q"' | redraw!
+    endif
+end
 
 "##### auto fcitx  ###########
 let g:input_toggle = 1
