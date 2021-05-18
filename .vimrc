@@ -616,11 +616,13 @@ function! Fcitx2zh()
    endif
 endfunction
 
-set ttimeoutlen=150
-"Exit insert mode
-autocmd InsertLeave * call Fcitx2en()
-"Enter insert mode
-autocmd InsertEnter * call Fcitx2zh()
+if !has('Mac')
+    set ttimeoutlen=150
+    "Exit insert mode
+    autocmd InsertLeave * call Fcitx2en()
+    "Enter insert mode
+    autocmd InsertEnter * call Fcitx2zh()
+endif
 "##### auto fcitx end ######
 
 set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ 14
