@@ -33,11 +33,10 @@ export NVM_NODEJS_ORG_MIRROR=http://npm.taobao.org/mirrors/node
 nvm install node
 ```
 
-#### Link `.vimrc`/`coc-config.json` file
+#### Link `.vimrc` file
 
 ```bash
 ln -s $(pwd)/.vimrc ~/.vimrc
-ln -s $(pwd)/coc-settings.json ~/.vim/coc-settings.json
 ```
 
 ## Start VIM
@@ -51,6 +50,7 @@ vim
 ### Install `coc.nvim` Plugin
 
 ```bash
+ln -s $(pwd)/coc-settings.json ~/.vim/coc-settings.json
 alias nvm_mirror='npm_config_registry=http://registry.npm.taobao.org/ SASS_BINARY_SITE=https://npm.taobao.org/mirrors/node-sass/'
 nvm_mirror vim
 # :CocInstall coc-json coc-tsserver
