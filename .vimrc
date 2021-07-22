@@ -273,7 +273,7 @@ let g:rooter_silent_chdir = 1
 map <C-n> :NERDTreeToggle<CR>
 " open a NERDTree automatically when vim starts up if no files were specified
 autocmd StdinReadPre * let s:std_in = 1
-autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+" autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 
 " tmhedberg/SimpylFold
 let g:SimpylFold_docstring_preview = 1
