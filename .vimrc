@@ -11,6 +11,13 @@
 unlet! skip_defaults_vim
 source $VIMRUNTIME/defaults.vim
 
+" Set GitHub Mirror
+let GITHUB_URL = 'https://hub.fastgit.org/'
+let GITHUB_RAW_URL = 'https://raw.fastgit.org/'
+" let GITHUB_URL = 'https://github.com/'
+" let GITHUB_RAW_URL = 'https://raw.githubusercontent.com/'
+
+
 " Set mapleader
 let mapleader = ';'
 let g:mapleader = ';'
@@ -26,7 +33,7 @@ endif
 if g:os == 'Windows'
     " Windows (PowerShell)
     md ~\vimfiles\autoload
-    $uri = 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+    $uri = GITHUB_RAW_URL . 'junegunn/vim-plug/master/plug.vim'
     (New-Object Net.WebClient).DownloadFile(
         $uri,
         $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath(
@@ -37,8 +44,8 @@ if g:os == 'Windows'
 else
     " Unix (MacOs, Linux)
     if empty(glob('~/.vim/autoload/plug.vim'))
-        silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-                    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+        execute '!curl -fLo ~/.vim/autoload/plug.vim --create-dirs '
+	  \ . GITHUB_RAW_URL . 'junegunn/vim-plug/master/plug.vim'
         autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
     endif
     " add fzf support
@@ -58,9 +65,6 @@ endif
 """""""""""""""""""""""""""
 " vim-plug list
 """""""""""""""""""""""""""
-
-let GITHUB_URL = 'https://hub.fastgit.org/'
-" let GITHUB_URL = 'https://github.com/'
 
 " sheerun/vim-polyglot
 let g:polyglot_disabled = []
