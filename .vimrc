@@ -45,7 +45,7 @@ else
     " Unix (MacOs, Linux)
     if empty(glob('~/.vim/autoload/plug.vim'))
         execute '!curl -fLo ~/.vim/autoload/plug.vim --create-dirs '
-	  \ . GITHUB_RAW_URL . 'junegunn/vim-plug/master/plug.vim'
+          \ . GITHUB_RAW_URL . 'junegunn/vim-plug/master/plug.vim'
         autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
     endif
     " add fzf support
@@ -95,7 +95,7 @@ Plug GITHUB_URL . 'vim-airline/vim-airline'
 Plug GITHUB_URL . 'airblade/vim-rooter'
 
 " Files browser
-Plug GITHUB_URL . 'scrooloose/nerdtree'
+Plug GITHUB_URL . 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 
 " Simple fold
 Plug GITHUB_URL . 'tmhedberg/SimpylFold'

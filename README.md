@@ -18,11 +18,29 @@ brew install fzf
 $(brew --prefix)/opt/fzf/install
 ```
 
-## My vimrc configuration
+### Install `node`
 
-.vimrc is for Linux
-.vimperatorrc is for firefox plugin vimperator
+#### Install `nvm`
+
+```bash
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
+```
+
+#### Install latest release of node
+
+```bash
+export NVM_NODEJS_ORG_MIRROR=http://npm.taobao.org/mirrors/node
+nvm install node
+```
+
+## Start VIM
+
+```bash
+vim
+```
 
 ## Others
 
-Plugins manage: vim-plug
+- `.vimrc` is for Linux/Mac
+- `.vimperatorrc` is for Firefox plugin `vimperator`
+- Plugins manage: [vim-plug](https://github.com/junegunn/vim-plug)
