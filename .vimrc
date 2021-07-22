@@ -1,10 +1,10 @@
 " ======================================
 "    FileName: .vimrc
 "    Author:   Edward Guan
-"    Version:  2.0.0
+"    Version:  2.1.0
 "    Email:    nooop3.lau@gmail.com
 "    Blog: https://uare.github.io
-"    Date: 2020-10-24
+"    Date: 2021-07-22
 " =======================================
 
 " Vim 8 defaults
@@ -59,6 +59,9 @@ endif
 " vim-plug list
 """""""""""""""""""""""""""
 
+let GITHUB_URL = 'https://hub.fastgit.org/'
+" let GITHUB_URL = 'https://github.com/'
+
 " sheerun/vim-polyglot
 let g:polyglot_disabled = []
 
@@ -67,74 +70,74 @@ let g:polyglot_disabled = []
 call plug#begin('~/.vim/plugged')
 
 " Vim-plug
-Plug 'junegunn/vim-plug'
+Plug GITHUB_URL . 'junegunn/vim-plug'
 
 " Fzf vim
-Plug 'junegunn/fzf.vim'
+Plug GITHUB_URL . 'junegunn/fzf.vim'
 
 " Color Schemes
-Plug 'sainnhe/gruvbox-material'
+Plug GITHUB_URL . 'sainnhe/gruvbox-material'
 
 " solarized color theme
 if has('gui_running')
-    Plug 'altercation/vim-colors-solarized'
+    Plug GITHUB_URL . 'altercation/vim-colors-solarized'
 endif
 
 " Airline status line
-Plug 'tpope/vim-fugitive'
-Plug 'vim-airline/vim-airline'
+Plug GITHUB_URL . 'tpope/vim-fugitive'
+Plug GITHUB_URL . 'vim-airline/vim-airline'
 
 " vim rooter
-Plug 'airblade/vim-rooter'
+Plug GITHUB_URL . 'airblade/vim-rooter'
 
 " Files browser
-Plug 'scrooloose/nerdtree'
+Plug GITHUB_URL . 'scrooloose/nerdtree'
 
 " Simple fold
-Plug 'tmhedberg/SimpylFold'
+Plug GITHUB_URL . 'tmhedberg/SimpylFold'
 
-Plug 'jiangmiao/auto-pairs'
+Plug GITHUB_URL . 'jiangmiao/auto-pairs'
 
-Plug 'scrooloose/nerdcommenter'
+Plug GITHUB_URL . 'scrooloose/nerdcommenter'
 
 " vim polyglot
-Plug 'sheerun/vim-polyglot'
+Plug GITHUB_URL . 'sheerun/vim-polyglot'
 
 " Syntax checking
-Plug 'w0rp/ale'
+Plug GITHUB_URL . 'w0rp/ale'
 
 " coc.vim
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug GITHUB_URL . 'neoclide/coc.nvim', {'branch': 'release'}
 
 " Python3 neovim client: pip3 install neovim
-Plug 'roxma/nvim-yarp'
-Plug 'roxma/vim-hug-neovim-rpc'
-" Plug 'mhartington/nvim-typescript',
+Plug GITHUB_URL . 'roxma/nvim-yarp'
+Plug GITHUB_URL . 'roxma/vim-hug-neovim-rpc'
+" Plug GITHUB_URL . 'mhartington/nvim-typescript',
 " \{ 'do': 'yarn global add typescript --ignore-engines', 'for': 'typescript' }
 
 " Add maktaba and codefmt to the runtimepath.
 " (The latter must be installed before it can be used.)
-" Plug 'google/vim-maktaba'
-" Plug 'google/vim-codefmt'
+" Plug GITHUB_URL . 'google/vim-maktaba'
+" Plug GITHUB_URL . 'google/vim-codefmt'
 " Also add Glaive, which is used to configure codefmt's maktaba flags. See
 " `:help :Glaive` for usage.
-" Plug 'google/vim-glaive'
+" Plug GITHUB_URL . 'google/vim-glaive'
 
-Plug 'mattn/emmet-vim'
+Plug GITHUB_URL . 'mattn/emmet-vim'
 
-Plug 'fatih/vim-go'
+Plug GITHUB_URL . 'fatih/vim-go'
 
 " php-cs-fixer
-" Plug 'stephpy/vim-php-cs-fixer'
+" Plug GITHUB_URL . 'stephpy/vim-php-cs-fixer'
 
-Plug 'leafgarland/typescript-vim'
+Plug GITHUB_URL . 'leafgarland/typescript-vim'
 
-Plug 'artur-shaik/vim-javacomplete2'
+Plug GITHUB_URL . 'artur-shaik/vim-javacomplete2'
 
-Plug 'tomlion/vim-solidity'
+Plug GITHUB_URL . 'tomlion/vim-solidity'
 
 " Martix
-Plug 'vim-scripts/matrix.vim--Yang'
+Plug GITHUB_URL . 'vim-scripts/matrix.vim--Yang'
 
 call plug#end()
 
