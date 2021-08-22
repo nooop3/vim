@@ -65,7 +65,7 @@ vim -u DEFAULTS ~/.vimrc
 ## Install Powerline fonts
 
 ```bash
-# Change fonts in the iTerm2 Profiles -> Text -> font
+# Change fonts in the iTerm2 Profiles -> Text -> Font
 brew install svn
 brew install --cask homebrew/cask-fonts/font-dejavu-sans-mono-for-powerline
 ```
