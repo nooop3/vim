@@ -1,5 +1,6 @@
 {
   // jsonc configuration file, supports comments
   "javascript.suggestionActions.enabled": false,
-  "python.pythonPath": "python3"
+  "python.pythonPath": "python3",
+  "pyright.organizeimports.provider": "isort"
 }

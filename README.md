@@ -53,7 +53,7 @@ vim
 ln -s $(pwd)/coc-settings.json ~/.vim/coc-settings.json
 alias nvm_mirror='npm_config_registry=http://registry.npm.taobao.org/ SASS_BINARY_SITE=https://npm.taobao.org/mirrors/node-sass/'
 nvm_mirror vim
-# :CocInstall coc-json coc-tsserver
+# :CocInstall coc-json coc-tsserver coc-pyright
 ```
 
 ## Update `.vimrc`
