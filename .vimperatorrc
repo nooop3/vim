@@ -11,7 +11,7 @@ let g:smooziee_scroll_amount="50"
 let g:smooziee_scroll_interval="0"
 
 set hintchars=hjklasdfgyuiopqwertnmzcvb
-set suggestengines=''      
+set suggestengines=''
 set gui=addons,nomenu,nonavigation,nobookmarks,tabs
 set focuscontent
 set wildmode=list:full

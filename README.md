@@ -75,3 +75,11 @@ brew install --cask homebrew/cask-fonts/font-dejavu-sans-mono-for-powerline
 - `.vimrc` is for Linux/Mac
 - `.vimperatorrc` is for Firefox plugin `vimperator`
 - Plugins manage: [vim-plug](https://github.com/junegunn/vim-plug)
+
+## Tridactyl
+
+### Link
+
+```bash
+ln -s $(pwd)/.tridactylrc ~/.tridactylrc
+```
