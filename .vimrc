@@ -495,16 +495,6 @@ autocmd! bufwritepost .vimrc source ~/.vimrc
 map <leader>w :w!<CR>
 " Disable highlight when <leader><CR> is pressed
 map <silent> <leader><CR> :set nohlsearch<CR>
-" have Vim jump to the last position when reopening a file
-if has("autocmd")
-    au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
-endif
-" Go to the last cursor location when a file is opened, unless this is a
-" git commit (in which case it's annoying)
-au BufReadPost *
-    \ if line("'\"") > 0 && line("'\"") <= line("$") && &filetype != "gitcommit" |
-        \ execute("normal `\"") |
-    \ endif
 
 nnoremap [b :gt
 nnoremap ]b :gT
@@ -578,6 +568,8 @@ set encoding=utf8   " Set utf8 as standard encoding and en_US as the standard la
 " allow backspacing over everything in insert mode
 set fileformat=unix
 set fileformats=unix
+" Disable audible bell because it's annoying.
+set noerrorbells visualbell t_vb=
 if has('unnamedplus')
     set clipboard+=unnamedplus
 endif
