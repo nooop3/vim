@@ -165,9 +165,7 @@ nnoremap <silent> <leader>/ :execute 'Ag ' . input('Ag/')<CR>
 nnoremap <silent> <leader>. :AgIn
 
 nnoremap <silent> <C-k> :call SearchWordWithAg()<CR>
-vnoremap <silent> <leader>k :call SearchVisualSelectionWithAg()<CR>
 vnoremap <silent> K :call SearchVisualSelectionWithAg()<CR>
-vnoremap <silent> <leader>k :call SearchVisualSelectionWithAg()<CR>
 nnoremap <silent> <leader>gl :Commits<CR>
 nnoremap <silent> <leader>ga :BCommits<CR>
 nnoremap <silent> <leader>ft :Filetypes<CR>
@@ -572,6 +570,10 @@ set fileformats=unix
 set noerrorbells visualbell t_vb=
 if has('unnamedplus')
     set clipboard+=unnamedplus
+endif
+
+if executable("rg")
+    set grepprg=rg\ --vimgrep
 endif
 " Configured Cursor Color
 " Black ;DarkBlue ;DarkGreen ;DarkCyan ;DarkRed ;DarkMagenta ;
