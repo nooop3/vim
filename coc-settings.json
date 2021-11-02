@@ -2,5 +2,12 @@
   // jsonc configuration file, supports comments
   "javascript.suggestionActions.enabled": false,
   "python.pythonPath": "python3",
-  "pyright.organizeimports.provider": "isort"
+  "pyright.organizeimports.provider": "isort",
+  "sql.formatOptions": {
+    // "language": "db2,mariadb,mysql,n1ql,plsql,postgresql,redshift,spark,sql,tsql"
+    "language": "postgresql",
+    "indent": "    ",
+    "uppercase": true,
+    "linesBetweenQueries": 3
+  }
 }
