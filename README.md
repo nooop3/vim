@@ -51,9 +51,16 @@ vim
 
 ```bash
 ln -s $(pwd)/coc-settings.json ~/.vim/coc-settings.json
+# install coc-json & coc-html and exit
 alias nvm_mirror='npm_config_registry=http://registry.npm.taobao.org/ SASS_BINARY_SITE=https://npm.taobao.org/mirrors/node-sass/'
-nvm_mirror vim
-# :CocInstall coc-json coc-tsserver coc-pyright coc-sql
+nvm_mirror vim -c 'CocInstall -sync coc-json coc-tsserver coc-pyright coc-sql|q'
+```
+
+### Install `ALE` Support Tools
+
+```bash
+# brew install sqllint
+brew install pgformatter
 ```
 
 ## Update `.vimrc`

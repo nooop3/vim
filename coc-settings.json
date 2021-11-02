@@ -1,8 +1,12 @@
 {
   // jsonc configuration file, supports comments
+  "diagnostic.displayByAle": false,
   "javascript.suggestionActions.enabled": false,
   "python.pythonPath": "python3",
   "pyright.organizeimports.provider": "isort",
+  "sql.lintOnOpen": false,
+  "sql.lintOnChange": false,
+  "sql.lintOnSave": false,
   "sql.formatOptions": {
     // "language": "db2,mariadb,mysql,n1ql,plsql,postgresql,redshift,spark,sql,tsql"
     "language": "postgresql",

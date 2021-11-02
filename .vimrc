@@ -61,6 +61,9 @@ else
     set wildignore+=*/tmp/*,*.so,*.swp,*.zip
 endif
 
+" dense-analysis/ale
+" let g:ale_disable_lsp = 1
+
 
 """""""""""""""""""""""""""
 " vim-plug list
@@ -108,7 +111,7 @@ Plug GITHUB_URL . 'scrooloose/nerdcommenter'
 Plug GITHUB_URL . 'sheerun/vim-polyglot'
 
 " Syntax checking
-Plug GITHUB_URL . 'w0rp/ale'
+Plug GITHUB_URL . 'dense-analysis/ale'
 
 " coc.vim
 Plug GITHUB_URL . 'neoclide/coc.nvim', {'branch': 'release'}
@@ -283,10 +286,15 @@ let g:NERDSpaceDelims = 1
 let g:NERDCompactSextComs = 1
 let g:NERDTrimTrailingWhitespace = 1
 
-" w0rp/ale
+" dense-analysis/ale
+" Set this variable to 1 to fix files when you save them.
+" let g:ale_fix_on_save = 1
+" Only run linters named in ale_linters settings.
+let g:ale_linters_explicit = 1
 let g:ale_linters = {
             \ 'python': [],
             \ 'javascript': [],
+            \ 'sql': ['sql-lint'],
             \ 'java': ['javac'],
             \ 'typescript': ['tslint'],
             \ 'proto': ['protoc-gen-lint'],
@@ -294,10 +302,14 @@ let g:ale_linters = {
             \}
 let g:ale_fixers = {
             \ '*': ['remove_trailing_lines', 'trim_whitespace'],
+            \ 'sql': ['pgformatter'],
             \ 'typescript': ['prettier'],
             \ 'proto': ['clang-format']
             \}
 let g:ale_c_clangformat_options = '-assume-filename=.proto'
+let g:ale_sign_column_always = 1
+let g:ale_sql_pgformatter_options = '--function-case 2 --keyword-case 2 --type-case 2 --spaces 4 --keep-newline --no-extra-line'
+
 
 " coc-vim
 " Use tab for trigger completion with characters ahead and navigate.
