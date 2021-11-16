@@ -518,6 +518,13 @@ map <leader>7 7gt
 map <leader>8 8gt
 map <leader>9 9gt
 
+" Markdown add the checkbox
+autocmd FileType markdown
+    \ nnoremap <buffer> <silent> <leader>x<space>  :s/^\s*\(-<space>\\|\*<space>\)\?\zs\(\[[^\]]*\]<space>\)\?\ze./[<space>]<space>/<CR>0t]
+    \ | nnoremap <buffer> <silent> <leader>xx :s/^\s*\(-<space>\\|\*<space>\)\?\zs\(\[[^\]]*\]<space>\)\?\ze./[x]<space>/<CR>0t]
+    \ | vnoremap <buffer> <silent> <leader>x<space> :s/^\s*\(-<space>\\|\*<space>\)\?\zs\(\[[^\]]*\]<space>\)\?\ze./[<space>]<space>/<CR>0t]
+    \ | vnoremap <buffer> <silent> <leader>xx :s/^\s*\(-<space>\\|\*<space>\)\?\zs\(\[[^\]]*\]<space>\)\?\ze./[x]<space>/<CR>0t]
+
 " Support navigating in vims command mode
 cnoremap <C-a> <Home>
 cnoremap <C-e> <End>
