@@ -295,6 +295,7 @@ let g:ale_linters = {
             \ 'python': [],
             \ 'javascript': [],
             \ 'sql': ['sql-lint'],
+            \ 'sh': ['shellcheck'],
             \ 'java': ['javac'],
             \ 'typescript': ['tslint'],
             \ 'proto': ['protoc-gen-lint'],
