@@ -652,6 +652,8 @@ if !has('Mac')
 endif
 "##### auto fcitx end ######
 
+highlight Comment cterm=italic
+
 set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ 14
 " Allow saving of files as sudo when I forgot to start vim using sudo.
 cmap w!! w !sudo tee > /dev/null %
