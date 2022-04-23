@@ -12,7 +12,7 @@ unlet! skip_defaults_vim
 source $VIMRUNTIME/defaults.vim
 
 " Set GitHub Mirror
-let GITHUB_URL = 'https://hub.fastgit.org/'
+let GITHUB_URL = 'https://hub.fastgit.xyz/'
 let GITHUB_RAW_URL = 'https://raw.fastgit.org/'
 " let GITHUB_URL = 'https://github.com/'
 " let GITHUB_RAW_URL = 'https://raw.githubusercontent.com/'
